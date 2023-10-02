@@ -11,12 +11,20 @@ private:
     GLint altura;
     GLint largura;
 public:
-    Arena(/* args */);
+    Arena(GLint altura, GLint largura);
     ~Arena();
+    int getLargura(){
+        return this->largura;
+    }
+    int getAltura(){
+        return this->altura;
+    }
 };
 
-Arena::Arena(/* args */)
+Arena::Arena(GLint altura, GLint largura)
 {
+    this->altura = altura;
+    this->largura = largura;
 }
 
 Arena::~Arena()

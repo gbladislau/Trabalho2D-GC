@@ -1,12 +1,8 @@
 
-all: lib game
+all: game
 
-lib:
-	cd ./lib
-	make all
-
-game: lib
-	g++ -o trabalhoCG *.cpp 
+game: 
+	g++ -o trabalhoCG *.cpp -lGL -lGLU -lglut -lm
 
 clean:
 	rm -f trabalhoCG *.o

@@ -4,4 +4,5 @@
   <inimigo raioCabeca="50" tirosPorSegundo="..." velocidadeTiro="..."/>
   <barril altura="..." largura="..." numeroTiros="..." nParaGanhar="..." velocidade="..."/>
   <outros pensar="..." emAlgo="..."/>
+  <cor_player R=" " G=" " B=""/>
 </jogo>
