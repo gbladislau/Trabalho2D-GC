@@ -5,20 +5,20 @@
 #include <math.h>
 #include <stdio.h>
 
-class arena
+class Arena
 {
 private:
     GLint altura;
     GLint largura;
 public:
-    arena(/* args */);
-    ~arena();
+    Arena(/* args */);
+    ~Arena();
 };
 
-arena::arena(/* args */)
+Arena::Arena(/* args */)
 {
 }
 
-arena::~arena()
+Arena::~Arena()
 {
 }
