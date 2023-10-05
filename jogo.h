@@ -8,6 +8,7 @@ class Jogo
 {
 private:
     Arena * arena;
+
 public:
     Jogo(/* args */);
     ~Jogo();
@@ -24,6 +25,7 @@ Jogo::Jogo()
 
     GLint arenAltura;
     GLint arenaLargura;
+    GLdouble arenaR =0 , arenaG = 0, arenaB = 1;
 
     try
     {
@@ -44,7 +46,7 @@ Jogo::Jogo()
     
     std::cout << arenAltura <<" " << arenaLargura<< std::endl;
     
-    this->arena = new Arena(arenAltura,arenaLargura);
+    this->arena = new Arena(arenAltura,arenaLargura,arenaR,arenaG,arenaB);
 }
 
 Jogo::~Jogo()

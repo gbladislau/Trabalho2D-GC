@@ -1,7 +1,7 @@
 
 all: game
 
-game: 
+game: clean
 	g++ -o trabalhoCG *.cpp -lGL -lGLU -lglut -lm
 
 clean:
