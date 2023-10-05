@@ -13,7 +13,7 @@ private:
     GLdouble color[3];
 public:
     Arena(GLint altura, GLint largura, GLdouble R, GLdouble G, GLdouble B);
-    ~Arena();
+
     int getLargura(){
         return this->largura;
     }

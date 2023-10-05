@@ -9,7 +9,3 @@ Arena::Arena(GLint altura, GLint largura, GLdouble R, GLdouble G, GLdouble B)
     this->color[1] = G;
     this->color[2] = B;
 }   
-
-Arena::~Arena()
-{
-}

@@ -51,5 +51,4 @@ Jogo::Jogo()
 
 Jogo::~Jogo()
 {
-    delete arena;
 }

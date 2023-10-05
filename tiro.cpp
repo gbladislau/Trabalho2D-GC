@@ -3,11 +3,9 @@
 #include <cstdio>
 #include <iostream>
 #include "point.h"
-#define DISTANCIA_MAX 500
 
-extern void RotatePoint(GLfloat x, GLfloat y, GLfloat angle, GLfloat &xOut, GLfloat &yOut);
-//Funcao auxiliar de translação
-extern void TranslatePoint(GLfloat x, GLfloat y, GLfloat dx, GLfloat dy, GLfloat &xOut, GLfloat &yOut);
+///ATENCÃO --------------------------------------------------
+#define DISTANCIA_MAX 500
 
 void Tiro::DesenhaCirc(GLint radius, GLfloat R, GLfloat G, GLfloat B)
 {
@@ -53,7 +51,6 @@ void Tiro::Move(GLdouble timedif)
 bool Tiro::Valido()
 {
     if( abs(this->gX) >= DISTANCIA_MAX/2 || abs(this->gY) >= DISTANCIA_MAX/2){
-       // std::cout << "DELETOU TIRO" << std::endl;
         return false;
     }
     return true;

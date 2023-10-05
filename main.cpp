@@ -10,14 +10,14 @@
 #define INC_KEYIDLE 0.2
 
 
-Jogo * jogo = new Jogo();
+Jogo  jogo = Jogo();
 
 // Key status
 int keyStatus[256];
 
 // Window & Viewing dimensions
-const GLint Width = jogo->getArena()->getLargura();
-const GLint Height = jogo->getArena()->getAltura();
+const GLint Width = jogo.getArena()->getLargura();
+const GLint Height = jogo.getArena()->getAltura();
 
 void renderScene(void)
 {
@@ -67,7 +67,7 @@ void init()
     ResetKeyStatus();
 
     // Get colors for background
-    GLdouble* background_c = jogo->getArena()->getColor();
+    GLdouble* background_c = jogo.getArena()->getColor();
     // No opacity(alpha).
     glClearColor(background_c[0], background_c[1], background_c[2], 1.0f); 
 
@@ -93,8 +93,8 @@ int main(int argc, char *argv[])
 
     // Create the window.
     glutInitWindowSize(Width, Height);
-    glutInitWindowPosition(150, 50);
-    glutCreateWindow("ROBOTICA");
+    glutInitWindowPosition(100, 100);
+    glutCreateWindow("Trabalho 2D");
 
     // Define callbacks.
     glutDisplayFunc(renderScene);
@@ -106,6 +106,5 @@ int main(int argc, char *argv[])
 
     glutMainLoop();
 
-    delete jogo;
     return 0;
 }
