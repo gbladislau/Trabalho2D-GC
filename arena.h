@@ -1,3 +1,6 @@
+#ifndef ARENA_H
+#define ARENA_H
+
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <GL/glut.h>
@@ -24,3 +27,4 @@ public:
         return this->color;
     }
 };
+#endif // !ARENA_H

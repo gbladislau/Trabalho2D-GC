@@ -1,3 +1,6 @@
+#ifndef JOGADOR_H
+#define JOGADOR_H
+
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <GL/glut.h>
@@ -5,22 +8,25 @@
 #include <math.h>
 #include <stdio.h>
 
-class personagem
+class Personagem
 {
 private:
-    GLint raioCabeca;
-    GLfloat velocidadeDeMovimento;
-    GLint tirosPorSegundo;
-    GLint velocidadeTiro;
+    GLint raioCabeca = 0;
+    GLfloat velocidadeDeMovimento = 1;
+    GLfloat R, G, B;
 public:
-    personagem(/* args */);
-    ~personagem();
+    Personagem(){};
+    void setRaioCabeca(GLint r){ this->raioCabeca = r;};
+    void setVelocidade(GLfloat v){ this->velocidadeDeMovimento = v;};
+
+    void desenhaRect(  GLint height, GLint width, GLfloat R, GLfloat G, GLfloat B);
+
+    void desenhaCirc(  GLint radius, GLfloat R,  GLfloat G, GLfloat B);
+
+    void desenhaPersonagem(GLint x, GLint y);
+
 };
 
-personagem::personagem(/* args */)
-{
-}
 
-personagem::~personagem()
-{
-}
+
+#endif // !JOGADOR_H

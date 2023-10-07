@@ -1,3 +1,6 @@
+#ifndef POINT_H
+#define POINT_H 
+
 class Point2D
 {
 private:
@@ -24,3 +27,4 @@ public:
     void Translate (double dx, double dy);
     float AngleBeetwen(Point2D p1, Point2D p2);
 };
+#endif // !POINT_H

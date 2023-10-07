@@ -1,3 +1,7 @@
+#ifndef BARRIL_H
+#define BARRIL_H
+
+
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <GL/glut.h>
@@ -13,14 +17,11 @@ private:
     GLfloat velocidade;
     int numeroTiros;
 public:
-    barril(/* args */);
-    ~barril();
+    barril();
 };
 
-barril::barril(/* args */)
+barril::barril()
 {
 }
 
-barril::~barril()
-{
-}
+#endif // !BARRIL_H

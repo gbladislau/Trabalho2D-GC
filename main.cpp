@@ -10,7 +10,7 @@
 #define INC_KEYIDLE 0.2
 
 
-Jogo  jogo = Jogo();
+Jogo jogo = Jogo();
 
 // Key status
 int keyStatus[256];
@@ -105,6 +105,6 @@ int main(int argc, char *argv[])
     init();
 
     glutMainLoop();
-
+    
     return 0;
 }
