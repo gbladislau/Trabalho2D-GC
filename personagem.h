@@ -11,6 +11,8 @@
 class Personagem
 {
 private:
+    GLint gX, gY;
+    GLfloat thetaPerna;
     GLint raioCabeca = 0;
     GLfloat velocidadeDeMovimento = 1;
     GLfloat R, G, B;
@@ -23,6 +25,10 @@ public:
 
     void desenhaCirc(  GLint radius, GLfloat R,  GLfloat G, GLfloat B);
 
+    void desenhaPernas();
+
+    void Move(GLfloat dx, GLfloat dy);
+    
     void desenhaPersonagem(GLint x, GLint y);
 
 };

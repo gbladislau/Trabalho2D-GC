@@ -4,7 +4,15 @@ void Personagem::desenhaPersonagem(GLint x, GLint y)
 {
     glLoadIdentity();
     glPushMatrix();
+        // se move para posição
         glTranslatef(x,y,0);
+
+        // Cabeça
+        desenhaCirc(this->raioCabeca,this->R,this->G,this->B);
+
+        //Pernas
+        desenhaPernas();
+
     
     glPopMatrix();
 }
@@ -45,3 +53,32 @@ void Personagem::desenhaCirc(GLint radius, GLfloat R, GLfloat G, GLfloat B)
     glPopMatrix();   
     delete point;
 }
+void Personagem::desenhaPernas(){
+    glPushMatrix();
+        //esq
+        glTranslatef(-(this->raioCabeca/8)*3,0,0);
+        desenhaRect(this->raioCabeca/3,this->raioCabeca/4,0,0,0);
+
+        //0
+        glTranslatef(+(this->raioCabeca/8)*3,0,0);
+
+        // dir
+        glTranslatef(+(this->raioCabeca/8)*3,0,0);
+        desenhaRect(this->raioCabeca/3,this->raioCabeca/4,0,0,0);
+    glPopMatrix();
+}
+
+void Personagem::Move(GLfloat dx, GLfloat dy)
+{ 
+
+    this->gX += dx;
+    this->gY += dy;
+    this->thetaPerna -= (dy/(this->raioCabeca/3*2)) *(180/M_PI);
+
+}
+
+// void Personagem::MoveEmX(GLfloat dx)
+// {
+//     this->gX += dx;
+//     this->thetaPerna -= (dx/(this->raioCabeca/3*2)) *(180/M_PI);
+// }
