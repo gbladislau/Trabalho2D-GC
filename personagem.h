@@ -11,13 +11,13 @@
 class Personagem
 {
 private:
-    GLint gX, gY;
+    GLfloat gX, gY;
     GLfloat thetaPerna;
     GLint raioCabeca = 0;
     GLfloat velocidadeDeMovimento = 1;
     GLfloat R, G, B;
 public:
-    Personagem(GLint x, GLint y){
+    Personagem(GLfloat x, GLfloat y){
         gX = x;
         gY = y;
         thetaPerna = 0;
@@ -34,6 +34,10 @@ public:
     void Move(GLfloat dx, GLfloat dy);
     
     void desenhaPersonagem();
+    GLfloat getVelocidade(){return this->velocidadeDeMovimento;};
+    GLfloat getGx(){return this->gX;};
+    GLfloat getGy(){return this->gY;};
+    GLint getRaioCabeca(){return this->raioCabeca;};
 
 };
 

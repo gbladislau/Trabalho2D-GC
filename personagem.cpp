@@ -1,5 +1,7 @@
 #include "personagem.h"
 #include "point.h"
+
+
 void Personagem::desenhaPersonagem()
 {
     glLoadIdentity();
@@ -68,13 +70,13 @@ void Personagem::desenhaPernas(){
     glPopMatrix();
 }
 
+
 void Personagem::Move(GLfloat dx, GLfloat dy)
 { 
-
+    
     this->gX += dx;
     this->gY += dy;
     this->thetaPerna -= (dy/(this->raioCabeca/3*2)) *(180/M_PI);
-
 }
 
 // void Personagem::MoveEmX(GLfloat dx)

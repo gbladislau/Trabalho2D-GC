@@ -91,5 +91,5 @@ Jogo::Jogo()
     std::cout << config.arenAltura <<" " << config.arenaLargura<< std::endl;
     
     this->arena = new Arena(config.arenAltura,config.arenaLargura,config.arenaR,config.arenaG,config.arenaB);
-    this->jogador = new Player(config.raioCabecaJogador, config.velocidadeJogador,0,(-config.arenAltura/2)+config.raioCabecaJogador);
+    this->jogador = new Player(config.raioCabecaJogador, config.velocidadeJogador,0,(-config.arenAltura/2.0)+config.raioCabecaJogador);
 }

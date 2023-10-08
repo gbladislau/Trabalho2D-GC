@@ -13,7 +13,7 @@ private:
     GLfloat thetaGun;
     Arma * arma;
 public:
-    Player(GLint raioCabeca, int velocidade, GLint x,GLint y){
+    Player(GLint raioCabeca, int velocidade, GLfloat x,GLfloat y){
         this->corpo = new Personagem(x, y);
         this->corpo->setRaioCabeca(raioCabeca);
         this->corpo->setVelocidade(velocidade);
@@ -21,7 +21,11 @@ public:
     }
 
     void desenhaPlayer();
+    void Move(GLfloat dx, GLfloat dy);
+    GLint getVelocidade();
+    GLfloat getGx();
+    GLfloat getGy();
+    GLint getRaioCabeca();
 };
-
 
 #endif // !PLAYER_H
