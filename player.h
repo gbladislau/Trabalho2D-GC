@@ -9,17 +9,18 @@
 class Player
 {
 private:
-    Personagem corpo;
+    Personagem* corpo;
     GLfloat thetaGun;
     Arma * arma;
 public:
-    Player(GLint raioCabeca, int velocidade ){
-        corpo.setRaioCabeca(raioCabeca);
-        corpo.setVelocidade(velocidade);
+    Player(GLint raioCabeca, int velocidade, GLint x,GLint y){
+        this->corpo = new Personagem(x, y);
+        this->corpo->setRaioCabeca(raioCabeca);
+        this->corpo->setVelocidade(velocidade);
         this->arma = new Arma(raioCabeca,100);
     }
 
-    void desenhaPlayer(GLfloat x, GLfloat y, GLfloat thetaGun);
+    void desenhaPlayer();
 };
 
 

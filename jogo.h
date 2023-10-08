@@ -28,6 +28,9 @@ public:
     bool isGameDone(){
         return this->contadorDestruidos >= this->numeroMax;
     }
+    Player* getPlayer(){
+        return this->jogador;
+    }
 };
 
 #endif // !JOGO_H

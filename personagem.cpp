@@ -1,11 +1,11 @@
 #include "personagem.h"
 #include "point.h"
-void Personagem::desenhaPersonagem(GLint x, GLint y)
+void Personagem::desenhaPersonagem()
 {
     glLoadIdentity();
     glPushMatrix();
         // se move para posição
-        glTranslatef(x,y,0);
+        glTranslatef(this->gX,this->gY,0);
 
         // Cabeça
         desenhaCirc(this->raioCabeca,this->R,this->G,this->B);

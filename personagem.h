@@ -17,7 +17,11 @@ private:
     GLfloat velocidadeDeMovimento = 1;
     GLfloat R, G, B;
 public:
-    Personagem(){};
+    Personagem(GLint x, GLint y){
+        gX = x;
+        gY = y;
+        thetaPerna = 0;
+    };
     void setRaioCabeca(GLint r){ this->raioCabeca = r;};
     void setVelocidade(GLfloat v){ this->velocidadeDeMovimento = v;};
 
@@ -29,7 +33,7 @@ public:
 
     void Move(GLfloat dx, GLfloat dy);
     
-    void desenhaPersonagem(GLint x, GLint y);
+    void desenhaPersonagem();
 
 };
 

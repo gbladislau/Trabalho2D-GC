@@ -31,22 +31,22 @@ Jogo::Jogo()
 
     struct configData config;
 
-    GLint arenAltura;
-    GLint arenaLargura;
-    GLdouble arenaR =0 , arenaG = 0, arenaB = 1;
+    // GLint arenAltura;
+    // GLint arenaLargura;
+    // GLdouble arenaR =0 , arenaG = 0, arenaB = 1;
 
-    GLint raioCabecaJogador;
-    int velocidadeJogador;
+    // GLint raioCabecaJogador;
+    // int velocidadeJogador;
 
-    GLint raioCabecaInimigo;
-    int tirosPorSegundo;
-    int velocidadeTiro;
+    // GLint raioCabecaInimigo;
+    // int tirosPorSegundo;
+    // int velocidadeTiro;
 
-    GLint alturaBarril;
-    GLint larguraBarril;
-    GLint numeroTirosBarril;
-    GLint nParaGanhar;
-    GLint velocidadeBarril;
+    // GLint alturaBarril;
+    // GLint larguraBarril;
+    // GLint numeroTirosBarril;
+    // GLint nParaGanhar;
+    // GLint velocidadeBarril;
 
     try
     {
@@ -78,7 +78,7 @@ Jogo::Jogo()
 
         //JOGADOR
         if(p_jogador->Attribute("raioCabeca")&&p_jogador->Attribute("velocidade")){
-            config.raioCabecaJogador = p_jogador->FindAttribute("raioCabeçaJogador")->IntValue();
+            config.raioCabecaJogador = p_jogador->FindAttribute("raioCabeca")->IntValue();
             config.velocidadeJogador = p_jogador->FindAttribute("velocidade")->IntValue();
         }else throw std::runtime_error("\natributos raioCabeca e ou velocidade faltando (jogador)");
 
@@ -91,5 +91,5 @@ Jogo::Jogo()
     std::cout << config.arenAltura <<" " << config.arenaLargura<< std::endl;
     
     this->arena = new Arena(config.arenAltura,config.arenaLargura,config.arenaR,config.arenaG,config.arenaB);
-    this->jogador = new Player(config.raioCabecaJogador, config.velocidadeJogador);
+    this->jogador = new Player(config.raioCabecaJogador, config.velocidadeJogador,0,(-config.arenAltura/2)+config.raioCabecaJogador);
 }

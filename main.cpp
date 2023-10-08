@@ -23,6 +23,10 @@ void renderScene(void)
 {
     glClear(GL_COLOR_BUFFER_BIT);
 
+
+    jogo.getPlayer()->desenhaPlayer();
+
+
     glutSwapBuffers(); // Desenha the new frame of the game.
 }
 

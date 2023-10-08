@@ -1,7 +1,7 @@
 #include "player.h"
 
-void Player::desenhaPlayer(GLfloat x, GLfloat y, GLfloat thetaGun)
+void Player::desenhaPlayer()
 {
-    this->corpo.desenhaPersonagem(x,y);
+    this->corpo->desenhaPersonagem();
     //this->arma.desenhaArma();
 }
