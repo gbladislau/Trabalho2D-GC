@@ -27,7 +27,8 @@ void renderScene(void)
     jogo.getPlayer()->desenhaPlayer();
 
     glBegin(GL_LINES);
-        glVertex3f(-Height/2.0,0,0)
+        glVertex3f(-Height/2.0,0,0);
+        glVertex3f(Height/2,0,0);
     glEnd();
 
 
