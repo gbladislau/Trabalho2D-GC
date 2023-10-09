@@ -24,7 +24,7 @@ void Personagem::setColors(GLfloat R, GLfloat G, GLfloat B)
     this->B = B;
 }
 
-void Personagem::desenhaRect(GLint height, GLint width, GLfloat R, GLfloat G, GLfloat B)
+void desenhaRect(GLint height, GLint width, GLfloat R, GLfloat G, GLfloat B)
 {
     glColor3f(R,G,B);
 
@@ -37,7 +37,7 @@ void Personagem::desenhaRect(GLint height, GLint width, GLfloat R, GLfloat G, GL
 
 }
 
-void Personagem::desenhaCirc(GLint radius, GLfloat R, GLfloat G, GLfloat B)
+void desenhaCirc(GLint radius, GLfloat R, GLfloat G, GLfloat B)
 {
     glPushMatrix();
         glColor3f(R,G,B);

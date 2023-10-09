@@ -25,10 +25,6 @@ public:
     void setRaioCabeca(GLint r){ this->raioCabeca = r;};
     void setVelocidade(GLfloat v){ this->velocidadeDeMovimento = v;};
 
-    void desenhaRect(  GLint height, GLint width, GLfloat R, GLfloat G, GLfloat B);
-
-    void desenhaCirc(  GLint radius, GLfloat R,  GLfloat G, GLfloat B);
-
     void desenhaPernas();
 
     void Move(GLfloat dx, GLfloat dy);
