@@ -1,18 +1,7 @@
 #include "arma.h"
 
 
-void desenhaRect(GLint height, GLint width, GLfloat R, GLfloat G, GLfloat B)
-{
-    glColor3f(R,G,B);
-
-    glBegin(GL_POLYGON);
-        glVertex3f(-width/2, 0, 0.0);
-        glVertex3f(width/2, 0 , 0.0);
-        glVertex3f(width/2,height, 0.0);
-        glVertex3f(-width/2,height, 0.0);
-    glEnd();
-
-}
+extern void desenhaRect(GLint height, GLint width, GLfloat R, GLfloat G, GLfloat B);
 
 void Arma::desenhaArma()
 {

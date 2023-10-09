@@ -5,6 +5,7 @@
 #include <math.h>
 #include <stdio.h>
 #include "jogo.h"
+#include "point.h"
 
 #define INC_KEY 1
 #define INC_KEYIDLE 0.2
@@ -26,6 +27,8 @@ void renderScene(void)
 
     jogo.getPlayer()->desenhaPlayer();
 
+    glColor3f(1,1,1);
+    glLineWidth(4);
     glBegin(GL_LINES);
         glVertex3f(-Height/2.0,0,0);
         glVertex3f(Height/2,0,0);
@@ -68,20 +71,6 @@ void ResetKeyStatus()
     for (i = 0; i < 256; i++)
         keyStatus[i] = 0;
 }
-
-// bool isDentroDaArena(GLfloat dx,GLfloat dy,Player*p){
-//     GLint raioCabeca = p->getRaioCabeca();
-//     GLfloat gX = p->getGx();
-//     GLfloat gY = p->getGy();
-    
-//     bool ladodir = gX + dx + (raioCabeca) <= Width/2.0;
-//     bool ladoesq = -Width/2.0 <= gX + dx - (raioCabeca);
-//     bool emcima = gY + dy + (raioCabeca) <= 0;
-//     bool embaixo = -Height/2.0 <= gY + dy - (raioCabeca); 
-
-//     return ladodir&&ladoesq&&emcima&&embaixo;
-// }
-
 
 void idle(void)
 {
@@ -139,6 +128,17 @@ void idle(void)
     glutPostRedisplay();
 }
 
+Point2D previousMousePosition = Point2D();
+
+void passiveMotion(int x, int y){
+    printf("%f, %f",x,y);
+    Point2D p = Point2D(x,y);
+
+    jogo.getPlayer()->changeArmaDirection(p);
+
+    glutPostRedisplay();
+}
+
 
 void init()
 {
@@ -180,6 +180,7 @@ int main(int argc, char *argv[])
     glutKeyboardFunc(keyPress);
     glutIdleFunc(idle);
     glutKeyboardUpFunc(keyup);
+    glutPassiveMotionFunc(passiveMotion);
 
     init();
 

@@ -7,6 +7,7 @@
 #include <stdlib.h>
 #include <math.h>
 #include <stdio.h>
+#include "arma.h"
 
 class Personagem
 {
@@ -16,11 +17,15 @@ private:
     GLint raioCabeca = 0;
     GLfloat velocidadeDeMovimento = 1;
     GLfloat R, G, B;
+    Arma * arma;
+    GLfloat thetaGun;
 public:
-    Personagem(GLfloat x, GLfloat y){
+    Personagem(GLfloat x, GLfloat y,GLint r){
         gX = x;
         gY = y;
         thetaPerna = 0;
+        this->raioCabeca = r;
+        this->arma = new Arma(this->raioCabeca,100);
     };
     void setRaioCabeca(GLint r){ this->raioCabeca = r;};
     void setVelocidade(GLfloat v){ this->velocidadeDeMovimento = v;};

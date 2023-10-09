@@ -5,20 +5,18 @@
 #include <GL/glut.h>
 #include "arma.h"
 #include "personagem.h"
+#include "point.h"
 
 class Player
 {
 private:
     Personagem* corpo;
-    GLfloat thetaGun;
-    Arma * arma;
 public:
     Player(GLint raioCabeca, int velocidade, GLfloat x,GLfloat y){
-        this->corpo = new Personagem(x, y);
-        this->corpo->setRaioCabeca(raioCabeca);
+        this->corpo = new Personagem(x, y,raioCabeca);
         this->corpo->setVelocidade(velocidade);
-        this->arma = new Arma(raioCabeca,100);
         this->corpo->setColors(0,1,0);
+
     }
 
     void desenhaPlayer();
@@ -27,6 +25,7 @@ public:
     GLfloat getGx();
     GLfloat getGy();
     GLint getRaioCabeca();
+    void changeArmaDirection(Point2D new_pos);
 };
 
 #endif // !PLAYER_H
