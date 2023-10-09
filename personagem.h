@@ -38,6 +38,7 @@ public:
     GLfloat getGx(){return this->gX;};
     GLfloat getGy(){return this->gY;};
     GLint getRaioCabeca(){return this->raioCabeca;};
+    void setColors(GLfloat R,GLfloat G,GLfloat B);
 
 };
 

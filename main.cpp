@@ -69,18 +69,18 @@ void ResetKeyStatus()
         keyStatus[i] = 0;
 }
 
-bool isDentroDaArena(GLfloat dx,GLfloat dy,Player*p){
-    GLint raioCabeca = p->getRaioCabeca();
-    GLfloat gX = p->getGx();
-    GLfloat gY = p->getGy();
+// bool isDentroDaArena(GLfloat dx,GLfloat dy,Player*p){
+//     GLint raioCabeca = p->getRaioCabeca();
+//     GLfloat gX = p->getGx();
+//     GLfloat gY = p->getGy();
     
-    bool ladodir = gX + dx + (raioCabeca) <= Width/2.0;
-    bool ladoesq = -Width/2.0 <= gX + dx - (raioCabeca);
-    bool emcima = gY + dy + (raioCabeca) <= 0;
-    bool embaixo = -Height/2.0 <= gY + dy - (raioCabeca); 
+//     bool ladodir = gX + dx + (raioCabeca) <= Width/2.0;
+//     bool ladoesq = -Width/2.0 <= gX + dx - (raioCabeca);
+//     bool emcima = gY + dy + (raioCabeca) <= 0;
+//     bool embaixo = -Height/2.0 <= gY + dy - (raioCabeca); 
 
-    return ladodir&&ladoesq&&emcima&&embaixo;
-}
+//     return ladodir&&ladoesq&&emcima&&embaixo;
+// }
 
 
 void idle(void)
@@ -97,25 +97,42 @@ void idle(void)
     Player* p = jogo.getPlayer();
     GLfloat inc =  jogo.getPlayer()->getVelocidade()*timeDiference*INC_KEYIDLE;
 
+    GLfloat p_raioCabeca = p->getRaioCabeca();
+    GLfloat p_gX = p->getGx();
+    GLfloat p_gY = p->getGy();
+
     if (keyStatus[(int)('a')])
     {
-        if(isDentroDaArena(-inc,0,p))
-            p->Move((-inc) ,0);
+        bool ladoesq = -Width/2.0 <= p_gX - inc - (p_raioCabeca);
+        if(!ladoesq){
+            inc = -(-Width/2.0 - (p_gX-p_raioCabeca));
+        }    
+        p->Move(-(inc),0);
+
     }
     if (keyStatus[(int)('d')])
     {
-        if(isDentroDaArena(inc,0,p))
-            p->Move(inc ,0);
+        bool ladodir = p_gX + inc + (p_raioCabeca) <= Width/2.0;
+        if(!ladodir){
+            inc = (Width/2.0 - (p_gX+p_raioCabeca));
+        }    
+        p->Move((inc),0);
     }
     if (keyStatus[(int)('s')])
     {
-        if(isDentroDaArena(0,-inc,p))
-            p->Move(0,(-inc) );
+        bool embaixo = -Height/2.0 <= p_gY - inc - (p_raioCabeca);
+        if(!embaixo){
+            inc = -(-Height/2.0 - (p_gY-p_raioCabeca));
+        }    
+        p->Move(0,-inc);
     }
     if (keyStatus[(int)('w')])
     {
-        if(isDentroDaArena(0,inc,p))
-            p->Move(0,inc );
+        bool emcima = p_gY + inc + (p_raioCabeca) <= 0;
+         if(!emcima){
+            inc = (0 - (p_gY + p_raioCabeca));
+        }    
+        p->Move(0,inc);
     }
 
 
@@ -139,8 +156,8 @@ void init()
             (Width  / 2),   // X coordinate of right edge
             -(Height  / 2), // Y coordinate of bottom edge
             (Height / 2),  // Y coordinate of top edge
-            -1,                 // Z coordinate of the “near” plane
-            1);                 // Z coordinate of the “far” plane
+            -Height,                 // Z coordinate of the “near” plane
+            Height);                 // Z coordinate of the “far” plane
     
     glMatrixMode(GL_MODELVIEW);   // Select the projection matrix
     glLoadIdentity();

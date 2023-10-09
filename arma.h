@@ -13,7 +13,7 @@ private:
     int velocidadeTiro;
     int tiroPorSegundo;
 public:
-    Arma(GLint raioCabeça, int velocidade){};
-    Arma(GLint raioCabeça, int velocidade, int tirosPorSegundo){};
+    Arma(GLint raioCabeca, int velocidade){};
+    Arma(GLint raioCabeca, int velocidade, int tirosPorSegundo){};
 };
 #endif // !ARMA_H

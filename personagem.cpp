@@ -9,14 +9,19 @@ void Personagem::desenhaPersonagem()
         // se move para posição
         glTranslatef(this->gX,this->gY,0);
 
-        // Cabeça
-        desenhaCirc(this->raioCabeca,this->R,this->G,this->B);
-
         //Pernas
         desenhaPernas();
-
-    
+        
+        // Cabeça
+        desenhaCirc(this->raioCabeca,this->R,this->G,this->B);    
     glPopMatrix();
+}
+
+void Personagem::setColors(GLfloat R, GLfloat G, GLfloat B)
+{
+    this->R = R;
+    this->G = G;
+    this->B = B;
 }
 
 void Personagem::desenhaRect(GLint height, GLint width, GLfloat R, GLfloat G, GLfloat B)
@@ -57,16 +62,19 @@ void Personagem::desenhaCirc(GLint radius, GLfloat R, GLfloat G, GLfloat B)
 }
 void Personagem::desenhaPernas(){
     glPushMatrix();
-        //esq
-        glTranslatef(-(this->raioCabeca/8)*3,0,0);
-        desenhaRect(this->raioCabeca/3,this->raioCabeca/4,0,0,0);
+        glPushMatrix();
+            //esq
+            glRotatef(this->thetaPerna,1,0,0);
+            glTranslatef(-(this->raioCabeca/8)*3,0,0);
+            desenhaRect(this->raioCabeca*2,this->raioCabeca/2,0,0,0);
+        glPopMatrix();
 
-        //0
-        glTranslatef(+(this->raioCabeca/8)*3,0,0);
-
-        // dir
-        glTranslatef(+(this->raioCabeca/8)*3,0,0);
-        desenhaRect(this->raioCabeca/3,this->raioCabeca/4,0,0,0);
+        glPushMatrix();
+            // dir
+            glRotatef(this->thetaPerna,1,0,0);
+            glTranslatef(+(this->raioCabeca/8)*3,0,0);
+            desenhaRect(-this->raioCabeca*2,this->raioCabeca/2,0,0,0);
+        glPopMatrix();
     glPopMatrix();
 }
 
@@ -76,7 +84,7 @@ void Personagem::Move(GLfloat dx, GLfloat dy)
     
     this->gX += dx;
     this->gY += dy;
-    this->thetaPerna -= (dy/(this->raioCabeca/3*2)) *(180/M_PI);
+    this->thetaPerna -= (dy/(this->raioCabeca)) *(180/M_PI);
 }
 
 // void Personagem::MoveEmX(GLfloat dx)

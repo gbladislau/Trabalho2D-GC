@@ -18,6 +18,7 @@ public:
         this->corpo->setRaioCabeca(raioCabeca);
         this->corpo->setVelocidade(velocidade);
         this->arma = new Arma(raioCabeca,100);
+        this->corpo->setColors(0,1,0);
     }
 
     void desenhaPlayer();
