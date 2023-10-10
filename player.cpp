@@ -33,5 +33,6 @@ GLint Player::getRaioCabeca(){
 void Player::changeArmaDirection(GLint dx)
 {
     Arma* a  = this->corpo->getArma();
+    
     this->corpo->changeArmaTheta(dx);
 }

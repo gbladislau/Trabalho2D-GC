@@ -41,6 +41,8 @@ void Personagem::desenhaPersonagem()
         //Arma
         glPushMatrix();
             glTranslatef(this->raioCabeca+(this->arma->getLargura()/2)+1,-this->raioCabeca,0);
+            glRotatef(this->arma->getAngulo(),0,0,1);
+           
             this->arma->desenhaArma();
         glPopMatrix();
     glPopMatrix();

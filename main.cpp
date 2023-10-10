@@ -16,7 +16,7 @@ Jogo jogo = Jogo();
 // Key status
 int keyStatus[256];
 
-// Window & Viewing dimensions
+// Window & Viewwing dimensions
 const GLint Width = jogo.getArena()->getLargura();
 const GLint Height = jogo.getArena()->getAltura();
 
@@ -129,16 +129,17 @@ void idle(void)
     glutPostRedisplay();
 }
 
-Point2D previousMousePosition = Point2D();
+
 
 void passiveMotion(int x, int y){
+    static Point2D previousMousePosition = Point2D(x,y);
 
-    GLint dx = x - previousMousePosition.getX(); 
+    GLfloat dx = (x - previousMousePosition.getX()); 
 
     previousMousePosition.setX(x);
-    previousMousePosition.setY(y);
 
-    jogo.getPlayer()->changeArmaDirection((dx/4) *(180/M_PI));
+
+    jogo.getPlayer()->changeArmaDirection(dx);
 
     glutPostRedisplay();
 }

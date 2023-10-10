@@ -1,5 +1,5 @@
 #include "arma.h"
-
+#include "math.h"
 
 extern void desenhaRect(GLint height, GLint width, GLfloat R, GLfloat G, GLfloat B);
 
@@ -15,5 +15,5 @@ Tiro *Arma::atira()
 
 void Arma::setAngulo(GLint dx)
 {
-    this->angulo = 
+    this->angulo -= (dx/(this->altura)) *(180/M_PI);
 }

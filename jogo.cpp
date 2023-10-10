@@ -31,23 +31,6 @@ Jogo::Jogo()
 
     struct configData config;
 
-    // GLint arenAltura;
-    // GLint arenaLargura;
-    // GLdouble arenaR =0 , arenaG = 0, arenaB = 1;
-
-    // GLint raioCabecaJogador;
-    // int velocidadeJogador;
-
-    // GLint raioCabecaInimigo;
-    // int tirosPorSegundo;
-    // int velocidadeTiro;
-
-    // GLint alturaBarril;
-    // GLint larguraBarril;
-    // GLint numeroTirosBarril;
-    // GLint nParaGanhar;
-    // GLint velocidadeBarril;
-
     try
     {
         XMLElement * p_root_element = doc.RootElement();
