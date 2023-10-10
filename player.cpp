@@ -30,10 +30,8 @@ GLint Player::getRaioCabeca(){
     return this->corpo->getRaioCabeca();
 }
 
-void Player::changeArmaDirection(Point2D new_pos)
+void Player::changeArmaDirection(GLint dx)
 {
     Arma* a  = this->corpo->getArma();
-    GLfloat aX = a.getX();
-    GLfloat aY = a.getY();
-    this->corpo->changeArmaTheta(new_pos.AngleBeetwen(new_pos,Point2D(aX,aY)));
+    this->corpo->changeArmaTheta(dx);
 }

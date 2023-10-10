@@ -53,6 +53,11 @@ void Personagem::setColors(GLfloat R, GLfloat G, GLfloat B)
     this->B = B;
 }
 
+void Personagem::changeArmaTheta(GLint dx)
+{
+    this->arma->setAngulo(dx);
+}
+
 void desenhaRect(GLint height, GLint width, GLfloat R, GLfloat G, GLfloat B)
 {
     glColor3f(R,G,B);

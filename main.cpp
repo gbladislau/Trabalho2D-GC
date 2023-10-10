@@ -28,7 +28,8 @@ void renderScene(void)
     jogo.getPlayer()->desenhaPlayer();
 
     glColor3f(1,1,1);
-    glLineWidth(4);
+
+    glLineWidth(5);
     glBegin(GL_LINES);
         glVertex3f(-Height/2.0,0,0);
         glVertex3f(Height/2,0,0);
@@ -50,7 +51,7 @@ void keyPress(unsigned char key, int x, int y)
     case 'W':
     case 's':
     case 'S':
-        keyStatus[(int)key] = 1; // Using keyStatus trick
+        keyStatus[(int)tolower(key)] = 1; // Using keyStatus trick
         break;
     case 27:
         exit(0);
@@ -60,7 +61,7 @@ void keyPress(unsigned char key, int x, int y)
 
 void keyup(unsigned char key, int x, int y)
 {
-    keyStatus[(int)(key)] = 0;
+    keyStatus[(int)(tolower(key))] = 0;
     glutPostRedisplay();
 }
 
@@ -90,7 +91,7 @@ void idle(void)
     GLfloat p_gX = p->getGx();
     GLfloat p_gY = p->getGy();
 
-    if (keyStatus[(int)('a')])
+    if (keyStatus[(int)('a')]||keyStatus[(int)('A')])
     {
         bool ladoesq = -Width/2.0 <= p_gX - inc - (p_raioCabeca);
         if(!ladoesq){
@@ -99,7 +100,7 @@ void idle(void)
         p->Move(-(inc),0);
 
     }
-    if (keyStatus[(int)('d')])
+    if (keyStatus[(int)('d')]||keyStatus[(int)('D')])
     {
         bool ladodir = p_gX + inc + (p_raioCabeca) <= Width/2.0;
         if(!ladodir){
@@ -107,7 +108,7 @@ void idle(void)
         }    
         p->Move((inc),0);
     }
-    if (keyStatus[(int)('s')])
+    if (keyStatus[(int)('s')]||keyStatus[(int)('S')])
     {
         bool embaixo = -Height/2.0 <= p_gY - inc - (p_raioCabeca);
         if(!embaixo){
@@ -115,7 +116,7 @@ void idle(void)
         }    
         p->Move(0,-inc);
     }
-    if (keyStatus[(int)('w')])
+    if (keyStatus[(int)('w')]||keyStatus[(int)('W')])
     {
         bool emcima = p_gY + inc + (p_raioCabeca) <= 0;
          if(!emcima){
@@ -131,10 +132,13 @@ void idle(void)
 Point2D previousMousePosition = Point2D();
 
 void passiveMotion(int x, int y){
-    printf("%f, %f",x,y);
-    Point2D p = Point2D(x,y);
 
-    jogo.getPlayer()->changeArmaDirection(p);
+    GLint dx = x - previousMousePosition.getX(); 
+
+    previousMousePosition.setX(x);
+    previousMousePosition.setY(y);
+
+    jogo.getPlayer()->changeArmaDirection((dx/4) *(180/M_PI));
 
     glutPostRedisplay();
 }

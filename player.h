@@ -25,7 +25,7 @@ public:
     GLfloat getGx();
     GLfloat getGy();
     GLint getRaioCabeca();
-    void changeArmaDirection(Point2D new_pos);
+    void changeArmaDirection(GLint dx);
 };
 
 #endif // !PLAYER_H

@@ -12,3 +12,8 @@ Tiro *Arma::atira()
 {
     return new Tiro(this->gX,this->gY,this->angulo);
 }
+
+void Arma::setAngulo(GLint dx)
+{
+    this->angulo = 
+}
