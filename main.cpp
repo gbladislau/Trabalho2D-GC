@@ -35,6 +35,9 @@ void renderScene(void)
         glVertex3f(Height/2,0,0);
     glEnd();
 
+    // glBegin(GL_POINTS);
+    //     glVertex3f(mouse_pos.getX(),mouse_pos.getY(),0);
+    // glEnd();
 
     glutSwapBuffers(); // Desenha the new frame of the game.
 }
@@ -134,10 +137,8 @@ void idle(void)
 void passiveMotion(int x, int y){
     static Point2D previousMousePosition = Point2D(x,y);
 
-    GLfloat dx = (x - previousMousePosition.getX()); 
-
+    GLint dx = (x - previousMousePosition.getX()); 
     previousMousePosition.setX(x);
-
 
     jogo.getPlayer()->changeArmaDirection(dx);
 
