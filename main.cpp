@@ -35,9 +35,9 @@ void renderScene(void)
         glVertex3f(Height/2,0,0);
     glEnd();
 
-    // glBegin(GL_POINTS);
-    //     glVertex3f(mouse_pos.getX(),mouse_pos.getY(),0);
-    // glEnd();
+    for( Barril* barril : jogo.barril_list){
+        barril->desenhaBarril();
+    }
 
     glutSwapBuffers(); // Desenha the new frame of the game.
 }
@@ -129,6 +129,15 @@ void idle(void)
     }
 
 
+    // Move Barril
+
+    for( Barril* barril : jogo.barril_list){
+        for ( Tiro* tiro : jogo.tirosDoPlayer){
+            //verifica colisão
+        }
+       barril->Move();
+    }
+
     glutPostRedisplay();
 }
 
@@ -137,7 +146,7 @@ void idle(void)
 void passiveMotion(int x, int y){
     static Point2D previousMousePosition = Point2D(x,y);
 
-    GLint dx = (x - previousMousePosition.getX()); 
+    GLfloat dx = (x - previousMousePosition.getX())*0.2; 
     previousMousePosition.setX(x);
 
     jogo.getPlayer()->changeArmaDirection(dx);
@@ -172,7 +181,7 @@ void init()
 
 int main(int argc, char *argv[])
 {
- 
+    
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
 

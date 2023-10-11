@@ -26,7 +26,8 @@ public:
     void desenhaArma();
     GLint getLargura(){return this->largura;};
     Tiro* atira();
-    void setAngulo(GLint dx);
+    void accAngulo(GLfloat dx);
+
     GLfloat getAngulo(){return this->angulo;};
 };
 #endif // !ARMA_H

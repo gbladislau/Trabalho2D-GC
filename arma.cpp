@@ -14,7 +14,7 @@ Tiro *Arma::atira()
     return new Tiro(this->gX,this->gY,this->angulo);
 }
 
-void Arma::setAngulo(GLint dx)
+void Arma::accAngulo(GLfloat dx)
 {
     this->angulo -= dx;
     if (this->angulo > 30) this->angulo = 30;

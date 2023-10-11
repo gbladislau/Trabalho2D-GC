@@ -7,21 +7,26 @@
 #include <GL/glut.h>
 #include <stdlib.h>
 #include <math.h>
-#include <stdio.h>
+#include <cstdlib>
+#include "inimigo.h"
 
-class barril
+class Barril
 {
 private:
+    GLfloat gX,gY;
     GLint altura;
     GLint largura;
     GLfloat velocidade;
-    int numeroTiros;
+    int vida;
+    bool hasEnemy;
+    Inimigo* inimigo;
 public:
-    barril();
+    Barril(GLfloat x, GLfloat y, GLint altura, GLint largura, GLfloat velocidade, int vida);
+    void addInimigo(Inimigo *i);
+    void destroiBarril();
+    void Move();
+    void decVida();
+    void desenhaBarril();
 };
-
-barril::barril()
-{
-}
 
 #endif // !BARRIL_H

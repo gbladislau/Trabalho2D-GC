@@ -42,8 +42,6 @@ public:
     void setColors(GLfloat R,GLfloat G,GLfloat B);
 
     Arma* getArma(){return this->arma;};
-    void changeArmaTheta(GLint dx);
-
 };
 
 

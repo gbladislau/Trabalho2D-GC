@@ -1,35 +1,10 @@
 #include "jogo.h"
 #include <stdexcept>
 
-
-struct configData
-{
-    GLint arenAltura;
-    GLint arenaLargura;
-    GLdouble arenaR =0 , arenaG = 0, arenaB = 1;
-
-    GLint raioCabecaJogador;
-    int velocidadeJogador;
-
-    GLint raioCabecaInimigo;
-    int tirosPorSegundo;
-    int velocidadeTiro;
-
-    GLint alturaBarril;
-    GLint larguraBarril;
-    GLint numeroTirosBarril;
-    GLint nParaGanhar;
-    GLint velocidadeBarril;
-};
-
-
-Jogo::Jogo()
-{
+void Jogo::readConfigFile(char* path){
     XMLDocument doc;
-    XMLError eResult = doc.LoadFile("configuracoes.xml" );
+    XMLError eResult = doc.LoadFile(path);
     if (eResult != XML_SUCCESS) exit(1);
-
-    struct configData config;
 
     try
     {
@@ -44,8 +19,8 @@ Jogo::Jogo()
 
         // ARENA
         if(p_arena->Attribute("altura") && p_arena->Attribute("largura")){
-            config.arenAltura = p_arena->FindAttribute("altura")->IntValue();
-            config.arenaLargura = p_arena->FindAttribute("largura")->IntValue();
+            this->config.arenAltura = p_arena->FindAttribute("altura")->IntValue();
+            this->config.arenaLargura = p_arena->FindAttribute("largura")->IntValue();
         }else throw std::runtime_error("\natributos altura e ou largura faltando (arena)");
         try
         {
@@ -65,13 +40,32 @@ Jogo::Jogo()
             config.velocidadeJogador = p_jogador->FindAttribute("velocidade")->IntValue();
         }else throw std::runtime_error("\natributos raioCabeca e ou velocidade faltando (jogador)");
 
+        //BARRIL
+        if( p_barril->Attribute("largura") && p_barril->Attribute("altura")          && 
+            p_barril->Attribute("numeroTiros") && p_barril->Attribute("nParaGanhar") &&
+            p_barril->Attribute("velocidade") )
+        {
+            config.alturaBarril = p_barril->FindAttribute("altura")->IntValue();
+            config.larguraBarril = p_barril->FindAttribute("largura")->IntValue();
+            config.numeroTirosBarril = p_barril->FindAttribute("numeroTiros")->IntValue();
+            config.nParaGanhar = p_barril->FindAttribute("nParaGanhar")->IntValue();
+            config.velocidadeBarril = p_barril->FindAttribute("velocidade")->DoubleValue();
+        }else throw std::runtime_error("\natributos relacionados a barril faltando");
+
     }
     catch(const std::runtime_error& e) {
-        std::cerr << "Exception caught: " << e.what() << std::endl;
+        std::cerr << e.what() << std::endl;
         exit(1);
     }
     
-    std::cout << config.arenAltura <<" " << config.arenaLargura<< std::endl;
+}
+
+Jogo::Jogo()
+{
+    char path[20]= "./configuracoes.xml";
+    this->readConfigFile(path);
+    
+    std::cout <<"Criando arena de altura e largura: " <<config.arenAltura <<" " << config.arenaLargura<< std::endl;
     
     this->arena = new Arena(config.arenAltura,config.arenaLargura,config.arenaR,config.arenaG,config.arenaB);
     this->jogador = new Player(config.raioCabecaJogador, config.velocidadeJogador,0,(-config.arenAltura/2.0)+config.raioCabecaJogador);
