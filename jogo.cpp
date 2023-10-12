@@ -51,7 +51,7 @@ void Jogo::readConfigFile(char* path){
             config.nParaGanhar = p_barril->FindAttribute("nParaGanhar")->IntValue();
             config.velocidadeBarril = p_barril->FindAttribute("velocidade")->DoubleValue();
         }else throw std::runtime_error("\natributos relacionados a barril faltando");
-
+        config.segParaSairBarril = 1200;
     }
     catch(const std::runtime_error& e) {
         std::cerr << e.what() << std::endl;

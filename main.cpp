@@ -23,7 +23,7 @@ const GLint Height = jogo.getArena()->getAltura();
 void renderScene(void)
 {
     glClear(GL_COLOR_BUFFER_BIT);
-
+    glLoadIdentity();
 
     jogo.getPlayer()->desenhaPlayer();
 
@@ -31,14 +31,26 @@ void renderScene(void)
 
     glLineWidth(5);
     glBegin(GL_LINES);
-        glVertex3f(-Height/2.0,0,0);
-        glVertex3f(Height/2,0,0);
+        glVertex3f(-Width/2.0,0,0);
+        glVertex3f(Width/2,0,0);
     glEnd();
-
+    std::cout << "[";
     for( Barril* barril : jogo.barril_list){
         barril->desenhaBarril();
+        std::cout <<  barril << ", ";
+        // glPointSize(10);
+        // glBegin(GL_POINTS);
+        //     glVertex3f(barril->getX(), barril->getY(),0);
+        // glEnd();
+    }
+    std::cout << "]" << std::endl;
+    for (Tiro* tiro : jogo.tirosDoPlayer){
+        tiro->Desenha();
     }
 
+    for (Tiro* tiro : jogo.tirosDosInimigos){
+        tiro->Desenha();
+    }
     glutSwapBuffers(); // Desenha the new frame of the game.
 }
 
@@ -79,6 +91,9 @@ void ResetKeyStatus()
 void idle(void)
 {
     static GLdouble previousTime = glutGet(GLUT_ELAPSED_TIME);
+    struct configData config = jogo.getConfig();
+    static GLfloat deltaTimerBarril = config.segParaSairBarril;
+
     GLdouble currentTime, timeDiference;
     // Pega o tempo que passou do inicio da aplicacao
     currentTime = glutGet(GLUT_ELAPSED_TIME);
@@ -86,6 +101,8 @@ void idle(void)
     timeDiference = currentTime - previousTime;
     // Atualiza o tempo do ultimo frame ocorrido
     previousTime = currentTime;
+    
+    deltaTimerBarril += timeDiference;
 
     Player* p = jogo.getPlayer();
     GLfloat inc =  jogo.getPlayer()->getVelocidade()*timeDiference*INC_KEYIDLE;
@@ -128,14 +145,31 @@ void idle(void)
         p->Move(0,inc);
     }
 
+    // Cria Barril
+    if( deltaTimerBarril >= config.segParaSairBarril){
+        deltaTimerBarril = 0.0;
+        GLint lower = (-Width/2 + config.larguraBarril/2);
+        GLint upper = (Width/2 - config.larguraBarril/2);
+
+        GLint xBarril = (rand() % (upper - lower + 1)) + lower; 
+        //cout << "CRIA BARRIl: " << xBarril << " " << Height/2 << endl;
+        jogo.barril_list.push_back(new Barril( xBarril, Height/2,
+                                                config.alturaBarril,
+                                                config.larguraBarril,
+                                                config.velocidadeBarril,
+                                                config.numeroTirosBarril));
+    }
 
     // Move Barril
 
-    for( Barril* barril : jogo.barril_list){
-        for ( Tiro* tiro : jogo.tirosDoPlayer){
-            //verifica colisão
+    for (auto it = jogo.barril_list.rbegin(); it != jogo.barril_list.rend(); ++it) {
+        Barril* barril = *it;
+        if (barril->isValido(-Height/2))
+            barril->MoveY(timeDiference);
+        else {
+            jogo.barril_list.remove(barril); // Remove elemento
+            delete barril;
         }
-       barril->Move();
     }
 
     glutPostRedisplay();
@@ -177,7 +211,23 @@ void init()
     glMatrixMode(GL_MODELVIEW);   // Select the projection matrix
     glLoadIdentity();
 }
+void cleanMemory(){
+    for (auto it = jogo.barril_list.rbegin(); it != jogo.barril_list.rend(); ++it) {
+        Barril* barril = *it;
+        jogo.barril_list.remove(barril); // Remove the element
+    }
 
+    for (auto it = jogo.tirosDoPlayer.rbegin(); it != jogo.tirosDoPlayer.rend(); ++it) {
+        Tiro* tiro = *it;
+        jogo.tirosDoPlayer.remove(tiro); // Remove the element
+    }
+    
+     for (auto it = jogo.tirosDosInimigos.rbegin(); it != jogo.tirosDosInimigos.rend(); ++it) {
+        Tiro* tiro = *it;
+        jogo.tirosDosInimigos.remove(tiro); // Remove the element
+    }
+    std::cout << "Limpeza de memória feita" << std::endl;
+}
 
 int main(int argc, char *argv[])
 {
@@ -200,6 +250,8 @@ int main(int argc, char *argv[])
     init();
 
     glutMainLoop();
+
+    
     
     return 0;
 }

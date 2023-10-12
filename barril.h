@@ -24,9 +24,12 @@ public:
     Barril(GLfloat x, GLfloat y, GLint altura, GLint largura, GLfloat velocidade, int vida);
     void addInimigo(Inimigo *i);
     void destroiBarril();
-    void Move();
+    void MoveY(GLfloat timeDelta);
     void decVida();
     void desenhaBarril();
+    GLfloat getX(){return this->gX;};
+    GLfloat getY(){return this->gY;};
+    bool isValido(GLfloat yLimit);
 };
 
 #endif // !BARRIL_H

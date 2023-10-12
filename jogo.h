@@ -17,6 +17,7 @@ struct configData
 {
     GLint arenAltura;
     GLint arenaLargura;
+    GLfloat segParaSairBarril;
     GLdouble arenaR =0 , arenaG = 0, arenaB = 1;
 
     GLint raioCabecaJogador;
@@ -30,7 +31,7 @@ struct configData
     GLint larguraBarril;
     GLint numeroTirosBarril;
     GLint nParaGanhar;
-    GLint velocidadeBarril;
+    GLfloat velocidadeBarril;
 };
 
 
@@ -62,6 +63,7 @@ public:
     Player* getPlayer(){
         return this->jogador;
     }
+    configData getConfig(){return this->config;};
 };
 
 #endif // !JOGO_H
