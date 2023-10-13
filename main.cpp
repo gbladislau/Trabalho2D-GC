@@ -20,17 +20,17 @@ int keyStatus[256];
 const GLint Width = jogo.getArena()->getLargura();
 const GLint Height = jogo.getArena()->getAltura();
 
-int destruidos = 0;
-static char str[1000];
-void *font = GLUT_BITMAP_9_BY_15;
-void ImprimePlacar(GLfloat x, GLfloat y)
+
+void ImprimePlacar()
 {
+    static char str[1000];
+    void *font = GLUT_BITMAP_9_BY_15;
     glColor3f(1.0, 1.0, 1.0);
     // Cria a string a ser impressa
     char *tmpStr;
-    sprintf(str, "Barris destruidos: %d", destruidos);
+    sprintf(str, "Barris destruidos: %d", jogo.contadorDestruidos);
     // Define a posicao onde vai comecar a imprimir
-    glRasterPos2f(x, y);
+    glRasterPos2f(0, 0);
     // Imprime um caractere por vez
     tmpStr = str;
     while (*tmpStr)
@@ -77,6 +77,10 @@ void renderScene(void)
     for (Tiro* tiro : jogo.tirosDosInimigos){
         tiro->Desenha();
     }
+
+    glTranslatef((-Width/2)+5,(Height/2)-20,0);
+    ImprimePlacar();
+
     glutSwapBuffers(); // Desenha the new frame of the game.
 }
 
@@ -139,10 +143,12 @@ void idle(void)
     
     deltaTimerBarril += timeDiference;
 
-    Player* p = jogo.getPlayer();
-    GLfloat inc =  jogo.getPlayer()->getVelocidade()*timeDiference*INC_KEYIDLE;
+    static Player* p = jogo.getPlayer();
+    static GLfloat p_raioCabeca = p->getRaioCabeca();
+    // std::cout << jogo.isGameDone() << std::endl;
+    if(jogo.isGameDone()) return;
 
-    GLfloat p_raioCabeca = p->getRaioCabeca();
+    GLfloat inc =  p->getVelocidade()*timeDiference*INC_KEYIDLE;
     GLfloat p_gX = p->getGx();
     GLfloat p_gY = p->getGy();
     // MOVE PLAYER
@@ -221,7 +227,7 @@ void idle(void)
     // Move Barril e Checa se tiro bateu nele
     for (auto it = jogo.barril_list.rbegin(); it != jogo.barril_list.rend(); ++it) {
         Barril* barril = *it;
-        
+        bool barril_atingido = false;
         GLfloat barrilX, barrilY;
         barrilX = barril->getX();
         barrilY = barril->getY();
@@ -235,14 +241,19 @@ void idle(void)
 
             if (colidiuComBarril(barrilX,barrilY,tiroX,tiroY,tiro->getRaio(),barril->getAltura(),barril->getLargura())){
                 barril->decVida();
+                barril_atingido = true;
                 jogo.tirosDoPlayer.remove(tiro); // Remove elemento
                 delete tiro;
             }
         }
         // checa se barril é valido (se morreu no for anterior ou passou da arena)
-        if (barril->isValido(-Height/2))
+        if (barril->isValido(-Height/2)){
             barril->MoveY(timeDiference);
+        }
         else {
+            if(barril_atingido) 
+                jogo.incContador();
+
             jogo.barril_list.remove(barril); // Remove elemento
             delete barril;
         }
@@ -250,7 +261,6 @@ void idle(void)
 
     // Move tiros do Inimigo e verifica se colidiu com player
 
-    // Checa se tiros do player são válidos
 
     glutPostRedisplay();
 }

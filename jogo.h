@@ -39,12 +39,11 @@ class Jogo
 {
 private:
     Arena * arena;
-    int numeroMax;
-    int contadorDestruidos = 0;
     Player * jogador;
     struct configData config;
 
 public:
+    int contadorDestruidos = 0;
     list <Barril*> barril_list;
     list <Tiro*> tirosDosInimigos;
     list <Tiro*> tirosDoPlayer;
@@ -58,7 +57,7 @@ public:
         this->contadorDestruidos++;
     }
     bool isGameDone(){
-        return this->contadorDestruidos >= this->numeroMax;
+        return this->contadorDestruidos >= this->config.nParaGanhar;
     }
     Player* getPlayer(){
         return this->jogador;
