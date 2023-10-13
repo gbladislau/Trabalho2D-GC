@@ -21,6 +21,8 @@ private:
     bool hasEnemy;
     Inimigo* inimigo;
 public:
+    //void ImprimeVida(GLfloat x, GLfloat y);
+    void ImprimeVida();
     Barril(GLfloat x, GLfloat y, GLint altura, GLint largura, GLfloat velocidade, int vida);
     void addInimigo(Inimigo *i);
     void destroiBarril();

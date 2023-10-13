@@ -20,6 +20,26 @@ int keyStatus[256];
 const GLint Width = jogo.getArena()->getLargura();
 const GLint Height = jogo.getArena()->getAltura();
 
+int destruidos = 0;
+static char str[1000];
+void *font = GLUT_BITMAP_9_BY_15;
+void ImprimePlacar(GLfloat x, GLfloat y)
+{
+    glColor3f(1.0, 1.0, 1.0);
+    // Cria a string a ser impressa
+    char *tmpStr;
+    sprintf(str, "Barris destruidos: %d", destruidos);
+    // Define a posicao onde vai comecar a imprimir
+    glRasterPos2f(x, y);
+    // Imprime um caractere por vez
+    tmpStr = str;
+    while (*tmpStr)
+    {
+        glutBitmapCharacter(font, *tmpStr);
+        tmpStr++;
+    }
+}
+
 void renderScene(void)
 {
     glClear(GL_COLOR_BUFFER_BIT);

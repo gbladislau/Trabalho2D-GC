@@ -1,6 +1,31 @@
 #include "barril.h"
 #include <iostream>
+#include <cstring>
 extern void desenhaRect(GLint height, GLint width, GLfloat R, GLfloat G, GLfloat B);
+
+extern void * font;
+void Barril::ImprimeVida()
+{
+    glPushMatrix();
+        static char str[1000];
+        glColor3f(1.0, 1.0, 1.0);
+        // Cria a string a ser impressa
+        char *tmpStr;
+        sprintf(str, "%d", this->vida);
+        tmpStr = str;
+        
+        // Define a posicao onde vai comecar a imprimir
+        glRasterPos2f(0, 0);
+        // Imprime um caractere por vez
+        
+        while (*tmpStr)
+        {
+            glutBitmapCharacter(font, *tmpStr);
+            tmpStr++;
+        }
+    glPopMatrix();
+}
+
 
 Barril::Barril(GLfloat x, GLfloat y, GLint altura, GLint largura, GLfloat velocidade, int vida)
 {
@@ -37,6 +62,9 @@ void Barril::desenhaBarril()
         glTranslatef(this->gX,this->gY,0);
         //std::cout << "DESENHA"<< std::endl;
         desenhaRect(-this->altura,this->largura,0.78,0.549,0.055);
+        glTranslatef(this->largura/2 ,-this->altura/2,0);
+        glTranslatef(-10*(log10(this->vida)+1),0,0);
+        this->ImprimeVida();
     glPopMatrix();
 }
 
