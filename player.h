@@ -26,6 +26,7 @@ public:
     GLfloat getGy();
     GLint getRaioCabeca();
     void changeArmaDirection(GLfloat dx);
+    Tiro* atira();
 };
 
 #endif // !PLAYER_H

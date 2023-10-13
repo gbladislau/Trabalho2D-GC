@@ -42,5 +42,5 @@ void Barril::desenhaBarril()
 
 bool Barril::isValido(GLfloat yLimit)
 {
-    return yLimit < this->gY;
+    return (yLimit < this->gY) && (this->vida > 0);
 }

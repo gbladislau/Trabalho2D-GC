@@ -34,19 +34,25 @@ void renderScene(void)
         glVertex3f(-Width/2.0,0,0);
         glVertex3f(Width/2,0,0);
     glEnd();
-    std::cout << "[";
+    // std::cout << "[";
     for( Barril* barril : jogo.barril_list){
         barril->desenhaBarril();
-        std::cout <<  barril << ", ";
+        // std::cout <<  barril << ", ";
         // glPointSize(10);
         // glBegin(GL_POINTS);
         //     glVertex3f(barril->getX(), barril->getY(),0);
         // glEnd();
     }
-    std::cout << "]" << std::endl;
+    // std::cout << "]" << std::endl;
+
+
+    // std::cout << "[";
     for (Tiro* tiro : jogo.tirosDoPlayer){
         tiro->Desenha();
+        // std::cout << tiro ;
     }
+    // std::cout << "]" << std::endl;
+
 
     for (Tiro* tiro : jogo.tirosDosInimigos){
         tiro->Desenha();
@@ -88,6 +94,15 @@ void ResetKeyStatus()
         keyStatus[i] = 0;
 }
 
+bool colidiuComBarril(GLfloat barrilX, GLfloat barrilY, GLfloat tiroX, GLfloat tiroY, GLfloat raioTiro, GLfloat alturaB, GLfloat larguraB){
+    bool emcima, embaixo, direita, esquerda;
+    emcima = tiroY-raioTiro <= barrilY + (alturaB/2.0);
+    embaixo = tiroY+raioTiro >= barrilY - (alturaB/2.0);
+    direita = tiroX-raioTiro <= barrilX + (larguraB/2.0);
+    esquerda = tiroX+raioTiro >= barrilX - (larguraB/2.0);
+    return emcima && embaixo && direita && esquerda;
+}
+
 void idle(void)
 {
     static GLdouble previousTime = glutGet(GLUT_ELAPSED_TIME);
@@ -110,7 +125,7 @@ void idle(void)
     GLfloat p_raioCabeca = p->getRaioCabeca();
     GLfloat p_gX = p->getGx();
     GLfloat p_gY = p->getGy();
-
+    // MOVE PLAYER
     if (keyStatus[(int)('a')]||keyStatus[(int)('A')])
     {
         bool ladoesq = -Width/2.0 <= p_gX - inc - (p_raioCabeca);
@@ -160,10 +175,51 @@ void idle(void)
                                                 config.numeroTirosBarril));
     }
 
-    // Move Barril
 
+    // MOVE TODOS OS TIROS PLAYER
+    for (auto it_tiro = jogo.tirosDoPlayer.rbegin(); it_tiro != jogo.tirosDoPlayer.rend(); ++it_tiro){
+        Tiro* tiro = *it_tiro;
+        if(tiro->Valido(Width/2,Height/2)) 
+            tiro->Move(timeDiference);
+        else{
+            jogo.tirosDoPlayer.remove(tiro); // Remove elemento
+            delete tiro;
+        }
+    }
+
+    // MOVE TODOS OS TIROS Inimigos
+    for (auto it_tiro = jogo.tirosDosInimigos.rbegin(); it_tiro != jogo.tirosDosInimigos.rend(); ++it_tiro){
+        Tiro* tiro = *it_tiro;
+        if(tiro->Valido(Width/2,Height/2)) 
+            tiro->Move(timeDiference);
+        else{
+            jogo.tirosDosInimigos.remove(tiro); // Remove elemento
+            delete tiro;
+        }
+    }
+
+    // Move Barril e Checa se tiro bateu nele
     for (auto it = jogo.barril_list.rbegin(); it != jogo.barril_list.rend(); ++it) {
         Barril* barril = *it;
+        
+        GLfloat barrilX, barrilY;
+        barrilX = barril->getX();
+        barrilY = barril->getY();
+
+        //  TIRO checa SE BATEU NO BARRIL
+        for (auto it_tiro = jogo.tirosDoPlayer.rbegin(); it_tiro != jogo.tirosDoPlayer.rend(); ++it_tiro){
+            Tiro* tiro = *it_tiro;
+           
+            GLfloat tiroX, tiroY;
+            tiro->GetPos(tiroX,tiroY);
+
+            if (colidiuComBarril(barrilX,barrilY,tiroX,tiroY,tiro->getRaio(),barril->getAltura(),barril->getLargura())){
+                barril->decVida();
+                jogo.tirosDoPlayer.remove(tiro); // Remove elemento
+                delete tiro;
+            }
+        }
+        // checa se barril é valido (se morreu no for anterior ou passou da arena)
         if (barril->isValido(-Height/2))
             barril->MoveY(timeDiference);
         else {
@@ -171,6 +227,10 @@ void idle(void)
             delete barril;
         }
     }
+
+    // Move tiros do Inimigo e verifica se colidiu com player
+
+    // Checa se tiros do player são válidos
 
     glutPostRedisplay();
 }
@@ -229,6 +289,13 @@ void cleanMemory(){
     std::cout << "Limpeza de memória feita" << std::endl;
 }
 
+void mouse(int button, int state, int x, int y){
+    if(button == GLUT_LEFT_BUTTON && state == GLUT_DOWN ){
+        jogo.tirosDoPlayer.push_back(jogo.getPlayer()->atira());
+    }
+    glutPostRedisplay();
+}
+
 int main(int argc, char *argv[])
 {
     
@@ -246,7 +313,8 @@ int main(int argc, char *argv[])
     glutIdleFunc(idle);
     glutKeyboardUpFunc(keyup);
     glutPassiveMotionFunc(passiveMotion);
-
+    glutMouseFunc(mouse);
+    atexit(cleanMemory);
     init();
 
     glutMainLoop();

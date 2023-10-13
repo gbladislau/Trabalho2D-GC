@@ -32,6 +32,10 @@ GLint Player::getRaioCabeca(){
 
 void Player::changeArmaDirection(GLfloat dx)
 {
-    Arma* a  = this->corpo->getArma();
-    a->accAngulo(dx);
+    this->corpo->getArma()->accAngulo(dx);
+}
+
+Tiro *Player::atira()
+{
+    return this->corpo->atira();
 }

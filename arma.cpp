@@ -1,5 +1,6 @@
 #include "arma.h"
 #include "math.h"
+#include <iostream>
 
 extern void desenhaRect(GLint height, GLint width, GLfloat R, GLfloat G, GLfloat B);
 
@@ -9,9 +10,11 @@ void Arma::desenhaArma()
     desenhaRect(this->altura,this->largura,1,0,0);
 }
 
-Tiro *Arma::atira()
+Tiro *Arma::atira(Point2D baseArma, Point2D pontaArma)
 {
-    return new Tiro(this->gX,this->gY,this->angulo);
+    GLfloat angulo = baseArma.AngleBeetwen(baseArma,pontaArma);
+    // std::cout << baseArma.getX() << baseArma.getY() << angulo <<this->velocidadeTiro << std::endl;
+    return new Tiro(pontaArma.getX(),pontaArma.getY(),angulo,this->velocidadeTiro);
 }
 
 void Arma::accAngulo(GLfloat dx)

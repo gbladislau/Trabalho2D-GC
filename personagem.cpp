@@ -46,6 +46,28 @@ void Personagem::desenhaPersonagem()
     glPopMatrix();
 }
 
+Point2D Personagem::getBaseArma(){
+    Point2D base = Point2D();
+    base.Translate(this->raioCabeca+(this->arma->getLargura()/2)+1,-this->raioCabeca);
+    base.Translate(this->gX,this->gY);
+    return base;
+}
+
+Point2D Personagem::getPontaArma(){
+    Point2D ponta =  Point2D();
+    ponta.Translate(0,this->arma->getAltura());
+    ponta.RotateZ(this->arma->getAngulo());
+    ponta.Translate(this->raioCabeca+(this->arma->getLargura()/2)+1,-this->raioCabeca);
+    ponta.Translate(this->gX,this->gY);
+    return ponta;
+}
+
+
+Tiro *Personagem::atira()
+{
+    return this->arma->atira(this->getBaseArma(),this->getPontaArma());
+}
+
 void Personagem::setColors(GLfloat R, GLfloat G, GLfloat B)
 {
     this->R = R;

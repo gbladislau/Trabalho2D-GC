@@ -8,6 +8,7 @@
 #include <math.h>
 #include <stdio.h>
 #include "arma.h"
+#include "point.h"
 
 class Personagem
 {
@@ -25,7 +26,7 @@ public:
         gY = y;
         thetaPerna = 0;
         this->raioCabeca = r;
-        this->arma = new Arma(this->raioCabeca,100);
+        this->arma = new Arma(this->raioCabeca,0.1);
     };
     void setRaioCabeca(GLint r){ this->raioCabeca = r;};
     void setVelocidade(GLfloat v){ this->velocidadeDeMovimento = v;};
@@ -42,6 +43,9 @@ public:
     void setColors(GLfloat R,GLfloat G,GLfloat B);
 
     Arma* getArma(){return this->arma;};
+    Point2D getBaseArma();
+    Point2D getPontaArma();
+    Tiro * atira();
 };
 
 

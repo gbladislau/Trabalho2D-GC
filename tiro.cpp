@@ -4,9 +4,6 @@
 #include <iostream>
 #include "point.h"
 
-///ATENCÃO --------------------------------------------------
-#define DISTANCIA_MAX 500
-
 void Tiro::DesenhaCirc(GLint radius, GLfloat R, GLfloat G, GLfloat B)
 {
     glPushMatrix();
@@ -48,9 +45,9 @@ void Tiro::Move(GLdouble timedif)
     this->gY += (this->gVel * sin(this->gDirectionAng))*timedif;
 }
 
-bool Tiro::Valido()
+bool Tiro::Valido(GLfloat distMaxX,GLfloat distMaxY)
 {
-    if( abs(this->gX) >= DISTANCIA_MAX/2 || abs(this->gY) >= DISTANCIA_MAX/2){
+    if( abs(this->gX) >= distMaxX || abs(this->gY) >= distMaxY){
         return false;
     }
     return true;

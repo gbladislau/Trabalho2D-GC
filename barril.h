@@ -29,6 +29,8 @@ public:
     void desenhaBarril();
     GLfloat getX(){return this->gX;};
     GLfloat getY(){return this->gY;};
+    GLint getAltura(){return this->altura;};
+    GLint getLargura(){return this->largura;};
     bool isValido(GLfloat yLimit);
 };
 
