@@ -47,6 +47,7 @@ public:
     list <Barril*> barril_list;
     list <Tiro*> tirosDosInimigos;
     list <Tiro*> tirosDoPlayer;
+    bool gameOver_lose = false;
 
     void readConfigFile(char* path);
     Jogo();

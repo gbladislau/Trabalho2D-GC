@@ -40,10 +40,61 @@ void ImprimePlacar()
     }
 }
 
+void ImprimeGameDone(){
+    glClearColor(0,1,0,0);
+    static char str[1000];
+    void *font = GLUT_BITMAP_HELVETICA_18;
+    glColor3f(0, 0, 0);
+    glScalef(3,3,0);
+    // Cria a string a ser impressa
+    char *tmpStr;
+    sprintf(str, "Game Done (WIN)");
+    // Define a posicao onde vai comecar a imprimir
+    glRasterPos2f(-20, 0);
+    // Imprime um caractere por vez
+    tmpStr = str;
+    while (*tmpStr)
+    {
+        glutBitmapCharacter(font, *tmpStr);
+        tmpStr++;
+    }
+    glutSwapBuffers();
+}
+void ImprimeGameOver(){
+
+    glLoadIdentity();
+    glClearColor(1,0,0,0);
+    static char str[1000];
+    void *font = GLUT_BITMAP_HELVETICA_18;
+    glColor3f(1.0, 1.0, 1.0);
+    glScalef(3, 3, 0);
+    // Cria a string a ser impressa
+    char *tmpStr;
+    sprintf(str, "Game Over (LOSE)");
+    // Define a posicao onde vai comecar a imprimir
+    glRasterPos2f(-22, 0);
+    // Imprime um caractere por vez
+    tmpStr = str;
+    while (*tmpStr)
+    {
+        glutBitmapCharacter(font, *tmpStr);
+        tmpStr++;
+    }
+    glutSwapBuffers();
+}
+
 void renderScene(void)
 {
     glClear(GL_COLOR_BUFFER_BIT);
     glLoadIdentity();
+    
+    if (jogo.gameOver_lose || jogo.isGameDone() ){
+        if (jogo.gameOver_lose)
+            ImprimeGameOver();
+        else ImprimeGameDone();
+        return;
+    }
+    
 
     jogo.getPlayer()->desenhaPlayer();
 
@@ -146,7 +197,10 @@ void idle(void)
     static Player* p = jogo.getPlayer();
     static GLfloat p_raioCabeca = p->getRaioCabeca();
     // std::cout << jogo.isGameDone() << std::endl;
-    if(jogo.isGameDone()) return;
+    if(jogo.isGameDone() || jogo.gameOver_lose){
+        glutPostRedisplay();
+        return;
+    }
 
     GLfloat inc =  p->getVelocidade()*timeDiference*INC_KEYIDLE;
     GLfloat p_gX = p->getGx();
@@ -224,13 +278,19 @@ void idle(void)
         }
     }
 
-    // Move Barril e Checa se tiro bateu nele
+    // Move Barril e Checa se tiro bateu nele e se personagem bateu no barril
     for (auto it = jogo.barril_list.rbegin(); it != jogo.barril_list.rend(); ++it) {
         Barril* barril = *it;
         bool barril_atingido = false;
         GLfloat barrilX, barrilY;
         barrilX = barril->getX();
         barrilY = barril->getY();
+
+        if(colidiuComBarril(barrilX, barrilY,p_gX,p_gY,p->getRaioCabeca(),barril->getAltura(),barril->getLargura())){
+            jogo.gameOver_lose = true;
+            glutPostRedisplay();
+            return;
+        }
 
         //  TIRO checa SE BATEU NO BARRIL
         for (auto it_tiro = jogo.tirosDoPlayer.rbegin(); it_tiro != jogo.tirosDoPlayer.rend(); ++it_tiro){
@@ -265,9 +325,16 @@ void idle(void)
     glutPostRedisplay();
 }
 
-
+void mouse(int button, int state, int x, int y){
+    if(jogo.isGameDone() || jogo.gameOver_lose) return;
+    if(button == GLUT_LEFT_BUTTON && state == GLUT_DOWN ){
+        jogo.tirosDoPlayer.push_back(jogo.getPlayer()->atira());
+    }
+    glutPostRedisplay();
+}
 
 void passiveMotion(int x, int y){
+    if(jogo.isGameDone() || jogo.gameOver_lose) return;
     static Point2D previousMousePosition = Point2D(x,y);
 
     GLfloat dx = (x - previousMousePosition.getX())*0.2; 
@@ -301,6 +368,7 @@ void init()
     glMatrixMode(GL_MODELVIEW);   // Select the projection matrix
     glLoadIdentity();
 }
+
 void cleanMemory(){
     for (auto it = jogo.barril_list.rbegin(); it != jogo.barril_list.rend(); ++it) {
         Barril* barril = *it;
@@ -317,13 +385,6 @@ void cleanMemory(){
         jogo.tirosDosInimigos.remove(tiro); // Remove the element
     }
     std::cout << "Limpeza de memória feita" << std::endl;
-}
-
-void mouse(int button, int state, int x, int y){
-    if(button == GLUT_LEFT_BUTTON && state == GLUT_DOWN ){
-        jogo.tirosDoPlayer.push_back(jogo.getPlayer()->atira());
-    }
-    glutPostRedisplay();
 }
 
 int main(int argc, char *argv[])
