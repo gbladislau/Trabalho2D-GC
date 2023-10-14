@@ -1,8 +1,8 @@
 <jogo>
   <arena  altura="800" largura="454" R="0.5" G="0.5" B="0.7" />
-  <jogador raioCabeca="30" velocidade="1"/>
-  <barril altura="50" largura="180" numeroTiros="10" nParaGanhar="2" velocidade="0.2" segParaSair="1500"/>
-  <inimigo raioCabeca="50" tirosPorSegundo="1" velocidadeTiro="1"/>
+  <jogador raioCabeca="30" velocidade="1" velocidadeTiro="1"/>
+  <barril altura="80" largura="180" numeroTiros="10" nParaGanhar="2" velocidade="0.2" segParaSair="20000"/>
+  <inimigo raioCabeca="30" tirosPorSegundo="1" velocidadeTiro="1"/>
   <outros pensar="..." emAlgo="..."/>
 
 </jogo>

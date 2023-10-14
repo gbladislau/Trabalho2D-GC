@@ -27,6 +27,10 @@ public:
     GLint getRaioCabeca();
     void changeArmaDirection(GLfloat dx);
     Tiro* atira();
+    void clearMemoryPersonagem(){
+        this->corpo->clearMemoryArma();
+        delete this->corpo;
+    }
 };
 
 #endif // !PLAYER_H

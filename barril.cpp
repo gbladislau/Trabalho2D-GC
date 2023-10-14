@@ -36,7 +36,7 @@ Barril::Barril(GLfloat x, GLfloat y, GLint altura, GLint largura, GLfloat veloci
     this->vida = (vida);
     this->gX = x;
     this->gY = y;
-    this->hasEnemy = bool(rand()%2);
+    this->enemy = true;
 }
 
 void Barril::addInimigo(Inimigo* i){
@@ -44,12 +44,14 @@ void Barril::addInimigo(Inimigo* i){
 }
 
 void Barril::destroiBarril(){
-    delete this->inimigo;
+    if(this->enemy && this->inimigo != NULL)
+        delete this->inimigo;
 }
 
 void Barril::MoveY(GLfloat timeDelta)
 {
     this->gY -= (this->velocidade*timeDelta);
+    this->inimigo->Move(0,-timeDelta * this->velocidade);
 }
 
 void Barril::decVida()
@@ -63,10 +65,15 @@ void Barril::desenhaBarril()
         glTranslatef(this->gX,this->gY,0);
         //std::cout << "DESENHA"<< std::endl;
         desenhaRect(-this->altura,this->largura,0.78,0.549,0.055);
+        
         glTranslatef(this->largura/2 ,-this->altura/2,0);
+        
         glTranslatef(int(-10*(log10(this->vida)+1)) - 2,0,0);
         this->ImprimeVida();
+
     glPopMatrix();
+    if( this->enemy)
+        this->inimigo->desenhaInimigo();
 }
 
 bool Barril::isValido(GLfloat yLimit)

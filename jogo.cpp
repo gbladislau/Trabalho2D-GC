@@ -38,6 +38,10 @@ void Jogo::readConfigFile(char* path){
         if(p_jogador->Attribute("raioCabeca")&&p_jogador->Attribute("velocidade")){
             config.raioCabecaJogador = p_jogador->FindAttribute("raioCabeca")->IntValue();
             config.velocidadeJogador = p_jogador->FindAttribute("velocidade")->IntValue();
+
+            if(p_jogador->Attribute("velocidadeTiro")) 
+                config.velocidadeTiroJogador = p_jogador->FindAttribute("velocidadeTiro")->DoubleValue();
+            else config.velocidadeTiroJogador = -10;
         }else throw std::runtime_error("\natributos raioCabeca e ou velocidade faltando (jogador)");
 
         //BARRIL
@@ -50,10 +54,27 @@ void Jogo::readConfigFile(char* path){
             config.numeroTirosBarril = p_barril->FindAttribute("numeroTiros")->IntValue();
             config.nParaGanhar = p_barril->FindAttribute("nParaGanhar")->IntValue();
             config.velocidadeBarril = p_barril->FindAttribute("velocidade")->DoubleValue();
-            if(p_barril->Attribute("segParaSair")) config.segParaSairBarril = p_barril->FindAttribute("segParaSair")->IntValue();
+
+            if(p_barril->Attribute("segParaSair")) 
+                config.segParaSairBarril = p_barril->FindAttribute("segParaSair")->IntValue();
             else config.segParaSairBarril = 1200;
+
         }else throw std::runtime_error("\natributos relacionados a barril faltando");
-        
+       
+        //INIMIGO
+        if( p_inimigo->Attribute("raioCabeca")&&
+            p_inimigo->Attribute("velocidadeTiro")&&
+            p_inimigo->Attribute("tirosPorSegundo"))
+        {
+
+            config.raioCabecaInimigo = p_inimigo->FindAttribute("raioCabeca")->IntValue();
+            config.velocidadeTiroInimigo = p_inimigo->FindAttribute("velocidadeTiro")->DoubleValue();
+            config.tirosPorSegundo = p_inimigo->FindAttribute("tirosPorSegundo")->IntValue();
+
+            if (config.velocidadeTiroJogador == -10) 
+                config.velocidadeTiroJogador = config.velocidadeTiroInimigo;
+            
+        }else throw std::runtime_error("\natributos faltando para inimigo ");
     }
     catch(const std::runtime_error& e) {
         std::cerr << e.what() << std::endl;
@@ -71,4 +92,13 @@ Jogo::Jogo()
     
     this->arena = new Arena(config.arenAltura,config.arenaLargura,config.arenaR,config.arenaG,config.arenaB);
     this->jogador = new Player(config.raioCabecaJogador, config.velocidadeJogador,0,(-config.arenAltura/2.0)+config.raioCabecaJogador);
+}
+
+void Jogo::cleanMemoryPlayereArena()
+{
+    Player* p = this->getPlayer();
+    p->clearMemoryPersonagem();
+    Arena* a = this->arena;
+    delete p;
+    delete a;
 }

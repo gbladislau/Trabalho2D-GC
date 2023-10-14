@@ -20,6 +20,7 @@ private:
     GLfloat R, G, B;
     Arma * arma;
     GLfloat thetaGun;
+    GLfloat orientacao;
 public:
     Personagem(GLfloat x, GLfloat y,GLint r){
         gX = x;
@@ -27,6 +28,15 @@ public:
         thetaPerna = 0;
         this->raioCabeca = r;
         this->arma = new Arma(this->raioCabeca,0.1);
+        this->orientacao = 0;
+    };
+    Personagem(GLfloat x, GLfloat y,GLint r, GLfloat velocidadeTiro,int tirosPorSeg){
+        gX = x;
+        gY = y;
+        thetaPerna = 0;
+        this->raioCabeca = r;
+        this->arma = new Arma(this->raioCabeca,velocidadeTiro,tirosPorSeg);
+        this->orientacao = 180;
     };
     void setRaioCabeca(GLint r){ this->raioCabeca = r;};
     void setVelocidade(GLfloat v){ this->velocidadeDeMovimento = v;};
@@ -46,6 +56,7 @@ public:
     Point2D getBaseArma();
     Point2D getPontaArma();
     Tiro * atira();
+    void clearMemoryArma(){delete this->arma;};
 };
 
 

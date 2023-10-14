@@ -3,7 +3,6 @@
 void Player::desenhaPlayer()
 {
     this->corpo->desenhaPersonagem();
-    //this->arma.desenhaArma();
 }
 
 void Player::Move(GLfloat dx, GLfloat dy)

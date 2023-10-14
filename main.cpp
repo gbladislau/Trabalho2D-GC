@@ -248,11 +248,24 @@ void idle(void)
 
         GLint xBarril = (rand() % (upper - lower + 1)) + lower; 
         //cout << "CRIA BARRIl: " << xBarril << " " << Height/2 << endl;
-        jogo.barril_list.push_back(new Barril( xBarril, Height/2,
-                                                config.alturaBarril,
-                                                config.larguraBarril,
-                                                config.velocidadeBarril,
-                                                config.numeroTirosBarril));
+        Barril * b = new Barril( xBarril, Height/2,
+                                config.alturaBarril,
+                                config.larguraBarril,
+                                config.velocidadeBarril,
+                                config.numeroTirosBarril);
+
+        jogo.barril_list.push_back(b);
+
+        if (b->hasEnemy())
+        {
+            std::cout << "INIMIGO CRIADO" << std::endl;
+            b->addInimigo(new Inimigo(config.raioCabecaInimigo,
+                                        config.velocidadeBarril, 
+                                        config.tirosPorSegundo,
+                                        config.velocidadeTiro, 
+                                        b->getX(), (b->getY())-(config.alturaBarril/2)));
+        }
+        
     }
 
 
@@ -309,11 +322,13 @@ void idle(void)
         // checa se barril é valido (se morreu no for anterior ou passou da arena)
         if (barril->isValido(-Height/2)){
             barril->MoveY(timeDiference);
+            
         }
         else {
             if(barril_atingido) 
                 jogo.incContador();
 
+            barril->destroiBarril();
             jogo.barril_list.remove(barril); // Remove elemento
             delete barril;
         }
@@ -370,11 +385,12 @@ void init()
 }
 
 void cleanMemory(){
+    jogo.cleanMemoryPlayereArena();
     for (auto it = jogo.barril_list.rbegin(); it != jogo.barril_list.rend(); ++it) {
         Barril* barril = *it;
+        barril->destroiBarril();
         jogo.barril_list.remove(barril); // Remove the element
     }
-
     for (auto it = jogo.tirosDoPlayer.rbegin(); it != jogo.tirosDoPlayer.rend(); ++it) {
         Tiro* tiro = *it;
         jogo.tirosDoPlayer.remove(tiro); // Remove the element

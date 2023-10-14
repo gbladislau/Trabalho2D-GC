@@ -27,11 +27,10 @@ void desenhaCirc(GLint radius, GLfloat R, GLfloat G, GLfloat B)
 
 void Personagem::desenhaPersonagem()
 {
-    glLoadIdentity();
     glPushMatrix();
         // se move para posição
         glTranslatef(this->gX,this->gY,0);
-
+        glRotatef(this->orientacao,0,0,1);
         //Pernas
         desenhaPernas();
         
@@ -49,6 +48,7 @@ void Personagem::desenhaPersonagem()
 Point2D Personagem::getBaseArma(){
     Point2D base = Point2D();
     base.Translate(this->raioCabeca+(this->arma->getLargura()/2)+1,-this->raioCabeca);
+    base.RotateZ(this->orientacao);
     base.Translate(this->gX,this->gY);
     return base;
 }
@@ -58,6 +58,7 @@ Point2D Personagem::getPontaArma(){
     ponta.Translate(0,this->arma->getAltura());
     ponta.RotateZ(this->arma->getAngulo());
     ponta.Translate(this->raioCabeca+(this->arma->getLargura()/2)+1,-this->raioCabeca);
+    ponta.RotateZ(this->orientacao);
     ponta.Translate(this->gX,this->gY);
     return ponta;
 }

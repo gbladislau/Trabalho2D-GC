@@ -21,11 +21,13 @@ struct configData
     GLdouble arenaR =0 , arenaG = 0, arenaB = 1;
 
     GLint raioCabecaJogador;
-    int velocidadeJogador;
+    GLfloat velocidadeJogador;
+    GLfloat velocidadeTiroJogador;
 
     GLint raioCabecaInimigo;
     int tirosPorSegundo;
-    int velocidadeTiro;
+    GLfloat velocidadeTiro;
+    GLfloat velocidadeTiroInimigo;
 
     GLint alturaBarril;
     GLint larguraBarril;
@@ -64,6 +66,7 @@ public:
         return this->jogador;
     }
     configData getConfig(){return this->config;};
+    void cleanMemoryPlayereArena();
 };
 
 #endif // !JOGO_H
