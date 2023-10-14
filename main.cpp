@@ -262,7 +262,7 @@ void idle(void)
             b->addInimigo(new Inimigo(config.raioCabecaInimigo,
                                         config.velocidadeBarril, 
                                         config.tirosPorSegundo,
-                                        config.velocidadeTiro, 
+                                        config.velocidadeTiroInimigo, 
                                         b->getX(), (b->getY())-(config.alturaBarril/2)));
         }
         
