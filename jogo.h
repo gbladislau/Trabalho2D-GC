@@ -34,6 +34,10 @@ struct configData
     GLint numeroTirosBarril;
     GLint nParaGanhar;
     GLfloat velocidadeBarril;
+
+    bool semBarril = false;
+    bool semInimigo = false;
+    bool desativaColisao = false;
 };
 
 

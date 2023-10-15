@@ -75,6 +75,20 @@ void Jogo::readConfigFile(char* path){
                 config.velocidadeTiroJogador = config.velocidadeTiroInimigo;
             
         }else throw std::runtime_error("\natributos faltando para inimigo ");
+
+        XMLElement * p_op = p_root_element->FirstChildElement("opcional");
+        if( p_op!=0 ){
+
+            if(p_op->Attribute("semBarril")){
+                config.semBarril = p_op->FindAttribute("semBarril")->BoolValue();
+            }
+            if(p_op->Attribute("semInimigo")){
+                config.semInimigo = p_op->FindAttribute("semInimigo")->BoolValue();
+            }
+            if(p_op->Attribute("desativaColisao")){
+                config.desativaColisao = p_op->FindAttribute("desativaColisao")->BoolValue();
+            }
+        }
     }
     catch(const std::runtime_error& e) {
         std::cerr << e.what() << std::endl;

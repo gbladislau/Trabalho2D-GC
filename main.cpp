@@ -245,7 +245,7 @@ void idle(void)
     }
 
     // Cria Barril
-    if( deltaTimerBarril >= config.segParaSairBarril){
+    if( deltaTimerBarril >= config.segParaSairBarril && !config.semBarril){
         deltaTimerBarril = 0.0;
         GLint lower = (-Width/2 + config.larguraBarril/2);
         GLint upper = (Width/2 - config.larguraBarril/2);
@@ -260,7 +260,7 @@ void idle(void)
 
         jogo.barril_list.push_back(b);
 
-        if (b->hasEnemy())
+        if (b->hasEnemy() && !config.semInimigo)
         {
             b->addInimigo(new Inimigo(config.raioCabecaInimigo,
                                         config.velocidadeBarril, 
@@ -295,7 +295,7 @@ void idle(void)
         }
         GLfloat tiroX, tiroY;
         tiro->GetPos(tiroX,tiroY);
-        if(colidiuTiroPlayer(p_gX,p_gY,tiroX,tiroY,config.raioCabecaJogador,config.raioCabecaInimigo)){
+        if(colidiuTiroPlayer(p_gX,p_gY,tiroX,tiroY,config.raioCabecaJogador,config.raioCabecaInimigo) && !config.desativaColisao){
             jogo.gameOver_lose = true;
             return;
         }
@@ -309,7 +309,7 @@ void idle(void)
         barrilX = barril->getX();
         barrilY = barril->getY();
 
-        if(colidiuComBarril(barrilX, barrilY,p_gX,p_gY,p->getRaioCabeca(),barril->getAltura(),barril->getLargura())){
+        if(colidiuComBarril(barrilX, barrilY,p_gX,p_gY,p->getRaioCabeca(),barril->getAltura(),barril->getLargura()) && !config.desativaColisao){
             jogo.gameOver_lose = true;
             glutPostRedisplay();
             return;
@@ -322,7 +322,7 @@ void idle(void)
             GLfloat tiroX, tiroY;
             tiro->GetPos(tiroX,tiroY);
 
-            if (colidiuComBarril(barrilX,barrilY,tiroX,tiroY,tiro->getRaio(),barril->getAltura(),barril->getLargura())){
+            if (colidiuComBarril(barrilX,barrilY,tiroX,tiroY,tiro->getRaio(),barril->getAltura(),barril->getLargura()) && !config.desativaColisao){
                 barril->decVida();
                 barril_atingido = true;
                 jogo.tirosDoPlayer.remove(tiro); // Remove elemento
@@ -332,13 +332,13 @@ void idle(void)
         // checa se barril é valido (se morreu no for anterior ou passou da arena)
         if (barril->isValido(-Height/2)){
             barril->MoveY(timeDiference);
-            if(barril->hasEnemy()){
+            if(barril->hasEnemy() && !config.semInimigo){
 
                 Inimigo* inimigo = barril->getInimigo();
                 inimigo->apontaParaJogador(Point2D(p_gX,p_gY));
                 inimigo->accDeltaTiro(timeDiference);
-
-                if(inimigo->getDeltaTiro()/1000>= 1.0/config.tirosPorSegundo){
+                
+                if(config.tirosPorSegundo != 0 && inimigo->getDeltaTiro()/1000>= 1.0/config.tirosPorSegundo){
                     jogo.tirosDosInimigos.push_back(inimigo->atira());
                     inimigo->accDeltaTiro(-inimigo->getDeltaTiro());
                 }

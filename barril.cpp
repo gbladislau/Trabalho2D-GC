@@ -73,7 +73,7 @@ void Barril::desenhaBarril()
         this->ImprimeVida();
 
     glPopMatrix();
-    if( this->enemy)
+    if( this->enemy && this->inimigo != NULL)
         this->inimigo->desenhaInimigo();
 }
 
