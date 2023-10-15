@@ -21,18 +21,20 @@ public:
         this->largura = raioCabeca/2;
         this->velocidadeTiro = velocidade;
         this->tiroPorSegundo = -1;
-    };
+    }
+
     Arma(GLint raioCabeca, double velocidade, int tirosPorSegundo){
         this->altura = raioCabeca*3;
         this->largura = raioCabeca/2;
         this->velocidadeTiro = velocidade;
         this->tiroPorSegundo = tirosPorSegundo;
-    };
+    }
 
-    GLint getLargura() { return this->largura; };
-    GLint getAltura() { return this->altura; };
+    GLint getLargura() { return this->largura; }
+    GLint getAltura() { return this->altura; }
 
-    GLfloat getAngulo(){return this->angulo;};
+    GLfloat getAngulo(){return this->angulo;}
+    void setAngulo(GLfloat ang){this->angulo = ang;}
 
     void desenhaArma();
 

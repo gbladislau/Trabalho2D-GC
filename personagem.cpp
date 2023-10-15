@@ -35,14 +35,22 @@ void Personagem::desenhaPersonagem()
         desenhaPernas();
         
         // Cabeça
-        desenhaCirc(this->raioCabeca,this->R,this->G,this->B);    
-
+        desenhaCirc(this->raioCabeca,this->R,this->G,this->B);
+    
         //Arma
         glPushMatrix();
             glTranslatef(this->raioCabeca+(this->arma->getLargura()/2)+1,-this->raioCabeca,0);           
             this->arma->desenhaArma();
         glPopMatrix();
     glPopMatrix();
+
+    // glPushMatrix();
+    // glPointSize(20);
+    //     glBegin(GL_POINTS);
+    //         Point2D p = this->getBaseArma();
+    //         glVertex3f(p.getX(),p.getY(),0);
+    //     glEnd();   
+    // glPopMatrix();
 }
 
 Point2D Personagem::getBaseArma(){

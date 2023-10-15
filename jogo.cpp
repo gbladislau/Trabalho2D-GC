@@ -91,7 +91,9 @@ Jogo::Jogo()
     std::cout <<"Criando arena de altura e largura: " <<config.arenAltura <<" " << config.arenaLargura<< std::endl;
     
     this->arena = new Arena(config.arenAltura,config.arenaLargura,config.arenaR,config.arenaG,config.arenaB);
-    this->jogador = new Player(config.raioCabecaJogador, config.velocidadeJogador,0,(-config.arenAltura/2.0)+config.raioCabecaJogador);
+    this->jogador = new Player(config.raioCabecaJogador, 
+                                 config.velocidadeJogador,0,(-config.arenAltura/2.0)+config.raioCabecaJogador,
+                                config.velocidadeTiroJogador);
 }
 
 void Jogo::cleanMemoryPlayereArena()

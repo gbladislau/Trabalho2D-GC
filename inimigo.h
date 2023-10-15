@@ -11,6 +11,7 @@ class Inimigo
 {
 private:
     Personagem * corpo;
+    GLfloat deltaTiro = 0.0;
 public:
 
     Inimigo(GLint raioCabeca, int velocidade, int tirosPorSegundo,
@@ -28,7 +29,10 @@ public:
     GLfloat getGy();
     GLint getRaioCabeca();
     void changeArmaDirection(GLfloat dx);
-    Tiro* atira();
+    void apontaParaJogador(Point2D posicaoJogador);
+    Tiro *atira();
+    void accDeltaTiro(GLfloat timediff){this->deltaTiro+= timediff;}
+    GLfloat getDeltaTiro(){return this->deltaTiro;}
     void clearMemoryPersonagem(){
         this->corpo->clearMemoryArma();
         delete this->corpo;

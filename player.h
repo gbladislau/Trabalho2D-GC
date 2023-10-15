@@ -12,8 +12,8 @@ class Player
 private:
     Personagem* corpo;
 public:
-    Player(GLint raioCabeca, int velocidade, GLfloat x,GLfloat y){
-        this->corpo = new Personagem(x, y,raioCabeca);
+    Player(GLint raioCabeca, GLfloat velocidade, GLfloat x,GLfloat y, GLfloat velocidadeTiro){
+        this->corpo = new Personagem(x, y,raioCabeca,velocidadeTiro);
         this->corpo->setVelocidade(velocidade);
         this->corpo->setColors(0,1,0);
 

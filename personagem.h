@@ -30,6 +30,14 @@ public:
         this->arma = new Arma(this->raioCabeca,0.1);
         this->orientacao = 0;
     };
+    Personagem(GLfloat x, GLfloat y,GLint r,GLfloat velocidadeTiro){
+        gX = x;
+        gY = y;
+        thetaPerna = 0;
+        this->raioCabeca = r;
+        this->arma = new Arma(this->raioCabeca,velocidadeTiro);
+        this->orientacao = 0;
+    };
     Personagem(GLfloat x, GLfloat y,GLint r, GLfloat velocidadeTiro,int tirosPorSeg){
         gX = x;
         gY = y;

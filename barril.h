@@ -28,6 +28,7 @@ public:
     GLint getAltura(){return this->altura;}
     GLint getLargura(){return this->largura;}
     bool hasEnemy(){return this->enemy;}
+    Inimigo* getInimigo(){return this->inimigo;}
     void addInimigo(Inimigo *i);
     void MoveY(GLfloat timeDelta);
     void destroiBarril();

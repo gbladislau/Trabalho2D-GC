@@ -36,7 +36,7 @@ Barril::Barril(GLfloat x, GLfloat y, GLint altura, GLint largura, GLfloat veloci
     this->vida = (vida);
     this->gX = x;
     this->gY = y;
-    this->enemy = true;
+    this->enemy = bool(rand()%2);
 }
 
 void Barril::addInimigo(Inimigo* i){
@@ -51,7 +51,8 @@ void Barril::destroiBarril(){
 void Barril::MoveY(GLfloat timeDelta)
 {
     this->gY -= (this->velocidade*timeDelta);
-    this->inimigo->Move(0,-timeDelta * this->velocidade);
+    if(this->inimigo  && this->enemy)
+        this->inimigo->Move(0,-timeDelta * this->velocidade);
 }
 
 void Barril::decVida()

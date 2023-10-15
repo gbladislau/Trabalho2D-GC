@@ -169,13 +169,17 @@ void ResetKeyStatus()
         keyStatus[i] = 0;
 }
 
-bool colidiuComBarril(GLfloat barrilX, GLfloat barrilY, GLfloat tiroX, GLfloat tiroY, GLfloat raioTiro, GLfloat alturaB, GLfloat larguraB){
+inline bool  colidiuComBarril(GLfloat barrilX, GLfloat barrilY, GLfloat tiroX, GLfloat tiroY, GLfloat raioTiro, GLfloat alturaB, GLfloat larguraB){
     bool emcima, embaixo, direita, esquerda;
-    emcima = tiroY-raioTiro <= barrilY + (alturaB/2.0);
-    embaixo = tiroY+raioTiro >= barrilY - (alturaB/2.0);
+    emcima = tiroY-raioTiro <= barrilY ;
+    embaixo = tiroY+raioTiro >= barrilY - (alturaB);
     direita = tiroX-raioTiro <= barrilX + (larguraB/2.0);
     esquerda = tiroX+raioTiro >= barrilX - (larguraB/2.0);
     return emcima && embaixo && direita && esquerda;
+}
+inline bool colidiuTiroPlayer(GLfloat pX, GLfloat pY, GLfloat tX, GLfloat tY, GLfloat raioCabeca, GLfloat raioTiro){
+    GLdouble dist = sqrt(pow((pX - tX),2) + pow(( pY- tY),2));
+    return raioCabeca+raioTiro>=dist;
 }
 
 void idle(void)
@@ -258,7 +262,6 @@ void idle(void)
 
         if (b->hasEnemy())
         {
-            std::cout << "INIMIGO CRIADO" << std::endl;
             b->addInimigo(new Inimigo(config.raioCabecaInimigo,
                                         config.velocidadeBarril, 
                                         config.tirosPorSegundo,
@@ -283,11 +286,18 @@ void idle(void)
     // MOVE TODOS OS TIROS Inimigos
     for (auto it_tiro = jogo.tirosDosInimigos.rbegin(); it_tiro != jogo.tirosDosInimigos.rend(); ++it_tiro){
         Tiro* tiro = *it_tiro;
+        
         if(tiro->Valido(Width/2,Height/2)) 
             tiro->Move(timeDiference);
         else{
             jogo.tirosDosInimigos.remove(tiro); // Remove elemento
             delete tiro;
+        }
+        GLfloat tiroX, tiroY;
+        tiro->GetPos(tiroX,tiroY);
+        if(colidiuTiroPlayer(p_gX,p_gY,tiroX,tiroY,config.raioCabecaJogador,config.raioCabecaInimigo)){
+            jogo.gameOver_lose = true;
+            return;
         }
     }
 
@@ -322,7 +332,17 @@ void idle(void)
         // checa se barril é valido (se morreu no for anterior ou passou da arena)
         if (barril->isValido(-Height/2)){
             barril->MoveY(timeDiference);
-            
+            if(barril->hasEnemy()){
+
+                Inimigo* inimigo = barril->getInimigo();
+                inimigo->apontaParaJogador(Point2D(p_gX,p_gY));
+                inimigo->accDeltaTiro(timeDiference);
+
+                if(inimigo->getDeltaTiro()/1000>= 1.0/config.tirosPorSegundo){
+                    jogo.tirosDosInimigos.push_back(inimigo->atira());
+                    inimigo->accDeltaTiro(-inimigo->getDeltaTiro());
+                }
+            }
         }
         else {
             if(barril_atingido) 
@@ -333,8 +353,6 @@ void idle(void)
             delete barril;
         }
     }
-
-    // Move tiros do Inimigo e verifica se colidiu com player
 
 
     glutPostRedisplay();
@@ -359,7 +377,6 @@ void passiveMotion(int x, int y){
 
     glutPostRedisplay();
 }
-
 
 void init()
 {
@@ -420,13 +437,12 @@ int main(int argc, char *argv[])
     glutIdleFunc(idle);
     glutKeyboardUpFunc(keyup);
     glutPassiveMotionFunc(passiveMotion);
+    glutMotionFunc(passiveMotion);
     glutMouseFunc(mouse);
     atexit(cleanMemory);
     init();
 
     glutMainLoop();
-
-    
     
     return 0;
 }
