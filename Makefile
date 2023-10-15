@@ -2,14 +2,14 @@
 all: game
 
 game: clean
-	g++ -o trabalhoCG *.cpp -lGL -lGLU -lglut -lm
+	g++ -o trabalhocg ./src/*.cpp -lGL -lGLU -lglut -lm
 
 clean:
-	rm -f trabalhoCG trabalhoCG_d *.o
+	rm -f trabalhocg trabalhocg_d *.o
 
 debug: clean
-	g++ -o trabalhoCG_d *.cpp -lGL -lGLU -lglut -lm -g
-	gdb ./trabalhoCG_d
+	g++ -o trabalhocg_d ./src/*.cpp -lGL -lGLU -lglut -lm -g
+	gdb ./trabalhocg_d
 
 run: clean game
-	./trabalhoCG
+	./trabalhocg

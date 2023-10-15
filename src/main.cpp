@@ -252,7 +252,7 @@ void idle(void)
 
         GLint xBarril = (rand() % (upper - lower + 1)) + lower; 
         //cout << "CRIA BARRIl: " << xBarril << " " << Height/2 << endl;
-        Barril * b = new Barril( xBarril, Height/2,
+        Barril * b = new Barril( xBarril, Height/2+50,
                                 config.alturaBarril,
                                 config.larguraBarril,
                                 config.velocidadeBarril,
@@ -295,7 +295,7 @@ void idle(void)
         }
         GLfloat tiroX, tiroY;
         tiro->GetPos(tiroX,tiroY);
-        if(colidiuTiroPlayer(p_gX,p_gY,tiroX,tiroY,config.raioCabecaJogador,config.raioCabecaInimigo) && !config.desativaColisao){
+        if(colidiuTiroPlayer(p_gX,p_gY,tiroX,tiroY,config.raioCabecaJogador,radiusTiro) && !config.desativaColisao){
             jogo.gameOver_lose = true;
             return;
         }

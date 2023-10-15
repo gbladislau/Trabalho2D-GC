@@ -2,7 +2,7 @@
   <arena  altura="800" largura="454" R="0.5" G="0.5" B="0.7" />
   <jogador raioCabeca="30" velocidade="1" velocidadeTiro="1"/>
   <barril altura="80" largura="180" numeroTiros="5" nParaGanhar="10" velocidade="0.2" segParaSair="1500"/>
-  <inimigo raioCabeca="30" tirosPorSegundo="1" velocidadeTiro="1"/>
+  <inimigo raioCabeca="30" tirosPorSegundo="1" velocidadeTiro="0.1"/>
   <outros pensar="..." emAlgo="..."/>
 
 </jogo>
